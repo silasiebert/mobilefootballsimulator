@@ -10,8 +10,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sila.brasfootmobile.MainActivity">
 
-    <TextView
+    <Button
+        android:text="Continuar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_below="@+id/btNovoJogo"
+        android:layout_alignRight="@+id/btNovoJogo"
+        android:layout_alignEnd="@+id/btNovoJogo"
+        android:layout_marginTop="24dp"
+        android:id="@+id/btContinuar" />
+
+    <Button
+        android:text="Novo jogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="107dp"
+        android:id="@+id/btNovoJogo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

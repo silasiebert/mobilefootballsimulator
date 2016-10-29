@@ -8,38 +8,23 @@ public class Jogador {
     public static final int DEFENSOR = 1;
     public static final int MEIOCAMPO = 2;
     public static final int ATACANTE = 3;
+    public static final int GOLEIRO = 4;
+
 
     private String nome;
-    private String sobrenome;
-
-
-    //Atributos do jogador
-    private int forca;
-
-
-
-
     private int posicao;
+    private int habilidade;
+    private int condicionamento;
+    private int motivacao;
 
-    public int getPosicao() {
-        return posicao;
-    }
-
-    public void setPosicao(int posicao) {
+    public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao) {
+        this.habilidade = habilidade;
+        this.nome = nome;
         this.posicao = posicao;
+        this.condicionamento = condicionamento;
+        this.motivacao = motivacao;
     }
 
-    public static int getDEFENSOR() {
-        return DEFENSOR;
-    }
-
-    public static int getMEIOCAMO() {
-        return MEIOCAMPO;
-    }
-
-    public static int getATACANTE() {
-        return ATACANTE;
-    }
 
     public String getNome() {
         return nome;
@@ -49,19 +34,35 @@ public class Jogador {
         this.nome = nome;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
+    public int getPosicao() {
+        return posicao;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
     }
 
-    public int getForca() {
-        return forca;
+    public int getHabilidade() {
+        return habilidade;
     }
 
-    public void setForca(int forca) {
-        this.forca = forca;
+    public void setHabilidade(int habilidade) {
+        this.habilidade = habilidade;
+    }
+
+    public int getCondicionamento() {
+        return condicionamento;
+    }
+
+    public void setCondicionamento(int condicionamento) {
+        this.condicionamento = condicionamento;
+    }
+
+    public int getMotivacao() {
+        return motivacao;
+    }
+
+    public void setMotivacao(int motivacao) {
+        this.motivacao = motivacao;
     }
 }
