@@ -16,15 +16,23 @@ public class Jogador {
     private int habilidade;
     private int condicionamento;
     private int motivacao;
-
-    public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao) {
+    private boolean jogando;
+    public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao,boolean j) {
         this.habilidade = habilidade;
         this.nome = nome;
         this.posicao = posicao;
         this.condicionamento = condicionamento;
         this.motivacao = motivacao;
+        this.jogando = j;
     }
 
+    public boolean isJogando() {
+        return jogando;
+    }
+
+    public void setJogando(boolean jogando) {
+        this.jogando = jogando;
+    }
 
     public String getNome() {
         return nome;
