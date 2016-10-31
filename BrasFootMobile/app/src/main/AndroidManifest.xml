@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".Time" />
         <activity android:name=".CriarClube" />
-        <activity android:name=".Loja"></activity>
+        <activity android:name=".Loja" />
+        <activity android:name=".Campeonato"></activity>
     </application>
 
 </manifest>

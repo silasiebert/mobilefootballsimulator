@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,33 +10,42 @@ import java.util.List;
 public class Clube {
 
 
-    private List<Jogador> jogadores;
-    private List<Jogador> goleiros;
-    private List<Jogador> defensores;
-    private List<Jogador> meiocampos;
-    private List<Jogador> atacantes;
+    private List<Jogador> jogadores = new ArrayList<>();
+    private List<Jogador> goleiros= new ArrayList<>();
+    private List<Jogador> defensores = new ArrayList<>();
+    private List<Jogador> meiocampos = new ArrayList<>();
+    private List<Jogador> atacantes = new ArrayList<>();
 
     private Estadio estadio;
     private String nome;
     private int forca;
 
     public int getForca(int pos) {
+        forca=0;
         if (pos==Jogador.ATACANTE){
             for(Jogador j:atacantes){
+                if(j.isJogando())
                 forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
             }
+            forca=forca/atacantes.size();
             }else if(pos==Jogador.DEFENSOR){
             for(Jogador j:defensores){
+                if(j.isJogando())
                 forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
             }
+            forca=forca/defensores.size();
             }else if(pos==Jogador.MEIOCAMPO){
             for(Jogador j:meiocampos){
+                if(j.isJogando())
                 forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
             }
+            forca=forca/meiocampos.size();
             }else if(pos==Jogador.GOLEIRO){
             for(Jogador j:goleiros){
+                if(j.isJogando())
                 forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
             }
+            forca=forca/goleiros.size();
         }
         return forca;
     }
@@ -63,8 +73,8 @@ public class Clube {
                 meiocampos.add(j);
             }
             else
-                if(j.getPosicao()==Jogador.GOLEIRO){
-                    goleiros.add(j);
+            if(j.getPosicao()==Jogador.GOLEIRO){
+                goleiros.add(j);
                 }
 
         }
@@ -91,4 +101,19 @@ public class Clube {
     */
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Estadio getEstadio() {
+        return estadio;
+    }
+
+    public void setEstadio(Estadio estadio) {
+        this.estadio = estadio;
+    }
 }
