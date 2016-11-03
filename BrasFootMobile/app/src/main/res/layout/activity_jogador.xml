@@ -19,35 +19,53 @@
         android:layout_alignParentEnd="true">
 
         <TextView
-            android:text="Escolha o time:"
-            android:layout_width="match_parent"
+            android:text="Nome: "
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
             android:textSize="30sp" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/spinner" />
-
         <TextView
-            android:text="Jogadores:"
-            android:layout_width="match_parent"
+            android:layout_width="187dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textView4"
+            android:id="@+id/tNome"
             android:textSize="25sp" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="322dp">
+        <TextView
+            android:text="Posição:"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:textSize="25sp" />
 
-        </ScrollView>
-
-        <Button
-            android:text="Button"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Confirmar" />
+            android:id="@+id/tPosicao" />
+
+        <TextView
+            android:text="Ataque:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tAtaque" />
+
+        <TextView
+            android:text="Defesa:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tDefesa" />
 
     </LinearLayout>
 

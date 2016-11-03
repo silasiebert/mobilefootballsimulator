@@ -20,7 +20,7 @@ public class CriarClube extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listaEstadios = (ListView) findViewById(R.id.lvEstadios);
+      //  listaEstadios = (ListView) findViewById(R.id.lvEstadios);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getApplicationContext(),
                 android.R.layout.simple_list_item_1,

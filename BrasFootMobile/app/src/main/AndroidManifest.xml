@@ -18,7 +18,25 @@
         <activity android:name=".Time" />
         <activity android:name=".CriarClube" />
         <activity android:name=".Loja" />
-        <activity android:name=".Campeonato"></activity>
+        <activity android:name=".Campeonato" />
+        <activity
+            android:name=".Jogador"
+            android:label="@string/title_activity_jogador"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TesteJogador"
+            android:label="@string/title_activity_teste_jogador"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Teste"
+            android:label="@string/title_activity_teste"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
