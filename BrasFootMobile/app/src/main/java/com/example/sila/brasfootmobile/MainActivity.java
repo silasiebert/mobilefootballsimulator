@@ -29,88 +29,74 @@ public class MainActivity extends AppCompatActivity {
 
     public void novoJogo(View v) {
         db = Conexao.getConexao();
-        db.execSQL(
-                        "CREATE TABLE  campeonato \n" +
-                        "(\n" +
-                        "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                        "\n" +
-                        "\tCONSTRAINT  FK_Campeonato_Jogo  FOREIGN KEY () REFERENCES  () ON DELETE No Action ON UPDATE No Action\n" +
-                        ")\n" +
-                        ";"
-                "DROP TABLE IF EXISTS  jogador \n" +
-                        ";\n" +
-                        "\n" +
-                        "DROP TABLE IF EXISTS  estadio \n" +
-                        ";\n" +
-                        "\n" +
-                        "DROP TABLE IF EXISTS  clube \n" +
-                        ";\n" +
-                        "\n" +
-                        "DROP TABLE IF EXISTS  jogo \n" +
-                        ";\n" +
-                        "\n" +
-                        "DROP TABLE IF EXISTS  loja \n" +
-                        ";\n" +
-                        "\n" +
-                        "DROP TABLE IF EXISTS  campeonato \n" +
-                        ";\n" +
-                        "\n" +
-                        "CREATE TABLE  jogador \n" +
-                        "(\n" +
-                        "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                        "\t posicao  INTEGER,\n" +
-                        "\t jogando  INTEGER,\n" +
-                        "\t motivacao  INTEGER,\n" +
-                        "\t habilidade  INTEGER,\n" +
-                        "\t condicionamento  INTEGER,\n" +
-                        "\t nome  TEXT\n" +
-                        ")\n" +
-                        ";\n" +
-                        "\n" +
-                        "CREATE TABLE  estadio \n" +
-                        "(\n" +
-                        "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                        "\t capacidade  INTEGER,\n" +
-                        "\t nome  TEXT,\n" +
-                        "\t precoEntrada  REAL,\n" +
-                        "\t precoExpansao  REAL\n" +
-                        ")\n" +
-                        ";\n" +
-                        "\n" +
-                        "CREATE TABLE  clube \n" +
-                        "(\n" +
-                        "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                        "\t forca  INTEGER,\n" +
-                        "\t nome  TEXT,\n" +
-                        "\n" +
-                        "\tCONSTRAINT  FK_Clube_Estadio  FOREIGN KEY ( id ) REFERENCES  estadio  ( id ) ON DELETE No Action ON UPDATE No Action,\n" +
-                        "\tCONSTRAINT  FK_Clube_Jogador  FOREIGN KEY ( id ) REFERENCES  jogador  ( id ) ON DELETE No Action ON UPDATE No Action\n" +
-                        ")\n" +
-                        ";\n" +
-                        "\n" +
-                        "CREATE TABLE  jogo \n" +
-                        "(\n" +
-                        "\t id  INTEGER NOT NULL,\n" +
-                        "\t golsLocal  INTEGER,\n" +
-                        "\t golsVisitante  INTEGER,\n" +
-                        "\t lucro  REAL,\n" +
-                        "\t vencedor  INTEGER,\n" +
-                        "\tCONSTRAINT  PK_Jogo  PRIMARY KEY (),\n" +
-                        "\tCONSTRAINT  FK_Jogo_Campeonato  FOREIGN KEY ( id ) REFERENCES  campeonato  ( id ) ON DELETE No Action ON UPDATE No Action,\n" +
-                        "\tCONSTRAINT  FK_Visitante_Clube  FOREIGN KEY ( id ) REFERENCES  clube  ( id ) ON DELETE No Action ON UPDATE No Action,\n" +
-                        "\tCONSTRAINT  FK_Local_Clube  FOREIGN KEY ( id ) REFERENCES  clube  ( id ) ON DELETE No Action ON UPDATE No Action\n" +
-                        ")\n" +
-                        ";\n" +
-                        "\n" +
-                        "CREATE TABLE  loja \n" +
-                        "(\n" +
-                        "\t id  INTEGER\n" +
-                        ")\n" +
-                        ";\n" +
-                        "\n");
+        db.execSQL(" CREATE TABLE IF NOT EXISTS  jogador \n" +
+                "(\n" +
+                "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t posicao  INTEGER,\n" +
+                "\t jogando  INTEGER,\n" +
+                "\t motivacao  INTEGER,\n" +
+                "\t habilidade  INTEGER,\n" +
+                "\t condicionamento  INTEGER,\n" +
+                "\t nome  TEXT,\n" +
+                "\n" +
+                "\tCONSTRAINT  FK_jogador_clube  FOREIGN KEY ( id ) REFERENCES  clube  ( id ) ON DELETE No Action ON UPDATE No Action\n" +
+                ")\n" +
+                ";\n" +
+                "\n" +
+                " CREATE TABLE IF NOT EXISTS  campeonato \n" +
+                "(\n" +
+                "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                "\n" +
+                "\tCONSTRAINT  FK_Campeonato_Jogo  FOREIGN KEY () REFERENCES  () ON DELETE No Action ON UPDATE No Action\n" +
+                ")\n" +
+                ";\n" +
+                "\n" +
+                " CREATE TABLE IF NOT EXISTS  estadio \n" +
+                "(\n" +
+                "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t capacidade  INTEGER,\n" +
+                "\t nome  TEXT,\n" +
+                "\t precoEntrada  REAL,\n" +
+                "\t precoExpansao  REAL\n" +
+                ")\n" +
+                ";\n" +
+                "\n" +
+                " CREATE TABLE IF NOT EXISTS  clube \n" +
+                "(\n" +
+                "\t id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t forca  INTEGER,\n" +
+                "\t nome  TEXT,\n" +
+                "\n" +
+                "\tCONSTRAINT  FK_Clube_Estadio  FOREIGN KEY ( id ) REFERENCES  estadio  ( id ) ON DELETE No Action ON UPDATE No Action\n" +
+                ")\n" +
+                ";\n" +
+                "\n" +
+                " CREATE TABLE IF NOT EXISTS  jogo \n" +
+                "(\n" +
+                "\t id  INTEGER NOT NULL,\n" +
+                "\t golsLocal  INTEGER,\n" +
+                "\t golsVisitante  INTEGER,\n" +
+                "\t lucro  REAL,\n" +
+                "\t vencedor  INTEGER,\n" +
+                "\tCONSTRAINT  PK_Jogo  PRIMARY KEY (),\n" +
+                "\tCONSTRAINT  FK_Jogo_Campeonato  FOREIGN KEY ( id ) REFERENCES  campeonato  ( id ) ON DELETE No Action ON UPDATE No Action,\n" +
+                "\tCONSTRAINT  FK_Visitante_Clube  FOREIGN KEY ( id ) REFERENCES  clube  ( id ) ON DELETE No Action ON UPDATE No Action,\n" +
+                "\tCONSTRAINT  FK_Local_Clube  FOREIGN KEY ( id ) REFERENCES  clube  ( id ) ON DELETE No Action ON UPDATE No Action\n" +
+                ")\n" +
+                ";\n" +
+                "\n" +
+                " CREATE TABLE IF NOT EXISTS  loja \n" +
+                "(\n" +
+                "\t id  INTEGER\n" +
+                ")\n" +
+                ";");
     }
 
-    
+    public void gerarJogadores(){
+        Clube Botafogo = new Clube();
+        db.execSQL("");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
