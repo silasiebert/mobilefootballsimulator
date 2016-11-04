@@ -39,15 +39,22 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="322dp">
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvJogadores" />
         </ScrollView>
 
         <Button
-            android:text="Button"
+            android:text="Confirmar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Confirmar" />
+            android:id="@+id/btConfirmar"
+            android:clickable="false"
+            android:onClick="escolher" />
 
     </LinearLayout>
 

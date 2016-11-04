@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">BrasFootMobile</string>
-    <string name="title_activity_jogador">Jogador</string>
-    <string name="title_activity_teste_jogador">TesteJogador</string>
-    <string name="title_activity_teste">Teste</string>
+    <string name="app_name">MobileFootSim</string>
+    <string name="newgame">Novo jogo</string>
+    <string name="resume">Continuar</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.sila.brasfootmobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -9,17 +10,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Model.Clube;
 import Model.Estadio;
 import Model.Jogador;
 import Model.Jogo;
+import Model.Liga;
 
 public class Campeonato extends AppCompatActivity {
     private TextView tvClubes,tvAndamento,tvGols,tvLucro;
     private SQLiteDatabase db;
+    private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,54 +65,38 @@ public class Campeonato extends AppCompatActivity {
             }
             c.setJogadores(jogadores);
         }
+        SharedPreferences s = getSharedPreferences(ARQUIVO_PREFERENCIAS, 0);
+        int fase = s.getInt("fase",0);
+        String meuClube = s.getString("clube","");
+        Clube meu = null;
+        for (Clube cc :clubes){
+            if(cc.getNome().equals(meuClube)){
+                meu = cc;
+            }
+        }
 
-
-
-        ArrayList<Jogador> botafogo= new ArrayList<>();
-        ArrayList<Jogador>flamengo= new ArrayList<>();
-
-
-        int numeroAletorio =(int)Math.random()*100;
-        botafogo.add(new Jogador(numeroAletorio,"1",Jogador.GOLEIRO,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"2",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"3",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"4",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"5",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"5",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"7",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"8",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"9",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"10",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-        botafogo.add(new Jogador(numeroAletorio,"11",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-
-
-        flamengo.add(new Jogador(numeroAletorio,"1",Jogador.GOLEIRO,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"2",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"3",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"4",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"5",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"5",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"7",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"8",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"9",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"10",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-        flamengo.add(new Jogador(numeroAletorio,"11",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-        Clube b = new Clube("Botafogo",botafogo,new Estadio(1,"1",1,1,1));
-        Clube f = new Clube("Flamengo",flamengo,new Estadio(1,"1",1,1,2));
+        Liga campeonato = new Liga();
         Jogo j = null;
-        for (Clube local:clubes)
+        //Collections.shuffle(clubes);
+        Clube local = clubes.get(fase);
             for (Clube visitante:clubes){
                 if (local!=visitante){
+
                     j= new Jogo(visitante,local);
+                    campeonato.adicionar(j);
+                    if(local==meu||visitante==meu){
+                        tvClubes.setText(visitante.getNome()+"x"+local.getNome());
+                        tvAndamento.setText(j.resultado());
+                        tvGols.setText(j.getGolsLocal()+"x"+j.getGolsVisitante());
+                    }
+
                 }
             }
+        fase++;
+        s.edit().putInt("fase",fase).commit();
+       Toast.makeText(getApplicationContext(),Integer.toString(fase),Toast.LENGTH_LONG);
 
 
-
-        tvClubes.setText(b.getNome()+"x"+f.getNome());
-        tvAndamento.setText(j.resultado());
-//        tvLucro.setText(j.calcularLucro()+"");
-        tvGols.setText(j.getGolsLocal()+"x"+j.getGolsVisitante());
 
     }
     @Override

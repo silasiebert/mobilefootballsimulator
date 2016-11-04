@@ -2,28 +2,28 @@ package com.example.sila.brasfootmobile;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import Model.Clube;
 import Model.Estadio;
 import Model.Jogador;
-import Model.Jogo;
 
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db;
-    private TextView tvClubes,tvJogadores;
-
-
+    private TextView tvJogadores;
+    private ListView lvClubes;
+    private  ArrayList<Clube> clubes = new ArrayList<>();
     public void criarTabelas() {
         db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT);");
         db.execSQL("CREATE TABLE  IF NOT EXISTS estadio (estadioId  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,capacidade  INTEGER,nome  TEXT, precoEntrada  REAL,precoExpansao  REAL,clubeId  INTEGER NOT NULL,CONSTRAINT  FK_possui_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action);");
@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void apagarTabelas() {
         //db.execSQL("DROP TABLE campeonato;");
-        db.execSQL("DROP TABLE IF EXISTS clube;");
-        db.execSQL("DROP TABLE IF EXISTS estadio;");
-        db.execSQL("DROP TABLE IF EXISTS jogador;");
-        db.execSQL("DROP TABLE IF EXISTS jogo;");
+        db.execSQL("DROP TABLE clube;");
+        db.execSQL("DROP TABLE estadio;");
+        db.execSQL("DROP TABLE jogador;");
+        db.execSQL("DROP TABLE jogo;");
         //db.execSQL("DROP TABLE loja;");
 
     }
@@ -47,18 +47,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-        tvClubes = (TextView) findViewById(R.id.tvClubes);
-        tvJogadores= (TextView) findViewById(R.id.tvJogadores);
+        tvJogadores = (TextView) findViewById(R.id.tvJogadores);
+        lvClubes  = (ListView) findViewById(R.id.lvClubes);
 
+        mostrarDados();
 
     }
 
     public void novoJogo(View v) {
         apagarTabelas();
         criarTabelas();
-
-
         gerarJogadores();
+
+        Intent intent = new Intent(getApplicationContext(),CriarClube.class);
+        startActivity(intent);
     }
 
     public void gerarJogadores() {
@@ -67,76 +69,94 @@ public class MainActivity extends AppCompatActivity {
         Clube fluminense = new Clube(2, "Fluminense");
 
 
-        ArrayList<Clube>clubes = new ArrayList<>();
+
         clubes.add(botafogo);
         clubes.add(fluminense);
 
         //Gerador de 20 jogadores aleatorios para cada clube
-        ArrayList<Jogador>jogadores;
-        for(Clube c:clubes){
-            jogadores= new ArrayList<>();
-                int numeroAletorio =(int)(Math.random()*30)+20;
-                jogadores.add(new Jogador(numeroAletorio,"1",Jogador.GOLEIRO,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"2",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"3",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"4",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"5",Jogador.ATACANTE,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"5",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"7",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"8",Jogador.DEFENSOR,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"9",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"10",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
-            jogadores.add(new Jogador(numeroAletorio,"11",Jogador.MEIOCAMPO,numeroAletorio,numeroAletorio,true));
+        ArrayList<Jogador> jogadores;
+        for (Clube c : clubes) {
+            jogadores = new ArrayList<>();
+            //int numeroAletorio =(int)(Math.random()*30)+20;
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "1", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "2", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "3", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "4", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "5", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "5", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "7", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "8", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "9", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "10", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "11", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
             c.setJogadores(jogadores);
 
         }
 
 
         criarTabelas();
-        int jogand =0;
+        int jogand = 0;
         //Insercao dos clubes e dos jogadores no banco
-        for(Clube clube:clubes){
+        for (Clube clube : clubes) {
             db.execSQL("INSERT INTO clube (clubeId,nome) VALUES (" + clube.getClubeId() + ", '" + clube.getNome() + "');");
-            for (Jogador j :clube.getJogadores()){
-                if(j.isJogando()){
+            for (Jogador j : clube.getJogadores()) {
+                if (j.isJogando()) {
                     jogand = 1;
                 }
-                db.execSQL("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES ("+j.getPosicao()+","+jogand+","+j.getMotivacao()+","+j.getHabilidade()+","+j.getCondicionamento()+",'"+j.getNome()+"',"+clube.getClubeId()+");");
+                db.execSQL("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES (" + j.getPosicao() + "," + jogand + "," + j.getMotivacao() + "," + j.getHabilidade() + "," + j.getCondicionamento() + ",'" + j.getNome() + "'," + clube.getClubeId() + ");");
             }
         }
 
 
+
+
+    }
+    public void mostrarDados(){
+        String[] nomes= new String[2];
+        int size = 0;
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
         String texto = "";
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             texto += cursor.getString(cursor.getColumnIndex("clubeId"));
             texto += ": " + cursor.getString(cursor.getColumnIndex("nome"));
-
+            nomes[size]=cursor.getString(cursor.getColumnIndex("nome"));
+            size++;
             texto += "\n";
+
             cursor.moveToNext();
         }
-        Cursor cursorJ = db.rawQuery("SELECT * FROM jogador", null);
-        String txt = "";
-        cursorJ.moveToFirst();
-        while (!cursorJ.isAfterLast()) {
-            txt += cursorJ.getString(cursorJ.getColumnIndex("jogadorId"));
-            txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("nome"));
-            txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("habilidade"));
-            txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("motivacao"));
-            txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("condicionamento"));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getBaseContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                nomes
+        );
+        lvClubes.setAdapter(adapter);
+        lvClubes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                String dis = (String) lvClubes.getItemAtPosition(position);
+
+                Cursor cursorJ = db.rawQuery("SELECT * FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
+                String txt = "";
+                cursorJ.moveToFirst();
+                while (!cursorJ.isAfterLast()) {
+                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogadorId"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("nome"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("habilidade"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("motivacao"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("condicionamento"));
 
 
-            txt += "\n";
-            cursorJ.moveToNext();
-        }
-        tvJogadores.setText(txt);
-
-        tvClubes.setText(texto);
-
+                    txt += "\n";
+                    cursorJ.moveToNext();
+                }
+                tvJogadores.setText(txt);
+            }
+        });
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
