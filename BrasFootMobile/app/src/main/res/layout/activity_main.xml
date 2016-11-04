@@ -10,22 +10,76 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sila.brasfootmobile.MainActivity">
 
-    <Button
-        android:text="Continuar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btNovoJogo"
-        android:layout_alignRight="@+id/btNovoJogo"
-        android:layout_alignEnd="@+id/btNovoJogo"
-        android:layout_marginTop="24dp"
-        android:id="@+id/btContinuar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:text="Novo jogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="107dp"
-        android:id="@+id/btNovoJogo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:text="Novo jogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btNovoJogo"
+            android:onClick="novoJogo"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Continuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btNovoJogo"
+            android:layout_alignRight="@+id/btNovoJogo"
+            android:layout_alignEnd="@+id/btNovoJogo"
+            android:layout_marginTop="24dp"
+            android:id="@+id/btContinuar"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="68dp"
+            android:id="@+id/tvClubes"
+            android:layout_below="@+id/btContinuar"
+            android:layout_toLeftOf="@+id/btContinuar"
+            android:layout_toStartOf="@+id/btContinuar"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvJogadores"
+            android:layout_alignBaseline="@+id/tvClubes"
+            android:layout_alignBottom="@+id/tvClubes"
+            android:layout_toRightOf="@+id/btContinuar"
+            android:layout_toEndOf="@+id/btContinuar" />
+
+        <TextView
+            android:text="Clubes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="42dp"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="169dp"
+            android:id="@+id/textView7"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:text="Jogadores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            android:layout_alignBaseline="@+id/textView7"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_alignLeft="@+id/tvJogadores"
+            android:layout_alignStart="@+id/tvJogadores"
+            android:textStyle="normal|bold" />
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -9,12 +9,14 @@ public class Estadio {
     private String nome;
     private double precoEntrada;
     private double precoExpansao;
+    private int estadioid;
 
-    public Estadio(int capacidade, String nome, double precoEntrada, double precoExpansao) {
+    public Estadio(int capacidade, String nome, double precoEntrada, double precoExpansao, int estadioid) {
         this.capacidade = capacidade;
         this.nome = nome;
         this.precoEntrada = precoEntrada;
         this.precoExpansao = precoExpansao;
+        this.estadioid = estadioid;
     }
 
     public void aumentarCapacidade(int cap){
@@ -25,6 +27,14 @@ public class Estadio {
     }
     public void diminuirPreco(double p){
         this.precoEntrada-= p;
+    }
+
+    public int getEstadioid() {
+        return estadioid;
+    }
+
+    public void setEstadioid(int estadioid) {
+        this.estadioid = estadioid;
     }
 
     public String getNome() {

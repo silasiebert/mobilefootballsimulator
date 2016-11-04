@@ -1,77 +1,82 @@
-DROP TABLE IF EXISTS 'campeonato'
+﻿DROP TABLE IF EXISTS  campeonato CASCADE
 ;
 
-DROP TABLE IF EXISTS 'estadio'
+DROP TABLE IF EXISTS  clube CASCADE
 ;
 
-DROP TABLE IF EXISTS 'clube'
+DROP TABLE IF EXISTS  estadio CASCADE
 ;
 
-DROP TABLE IF EXISTS 'jogador'
+DROP TABLE IF EXISTS  jogador CASCADE
 ;
 
-DROP TABLE IF EXISTS 'jogo'
+DROP TABLE IF EXISTS  jogo CASCADE
 ;
 
-DROP TABLE IF EXISTS 'loja'
+DROP TABLE IF EXISTS  loja CASCADE
 ;
-
-CREATE TABLE 'campeonato'
+CREATE TABLE  loja 
 (
-	'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+	 lojaId  INTEGER NOT NULL PRIMARY KEY
+)
+;
+CREATE TABLE  campeonato 
+(
+	 estadioId  INTEGER NOT NULL PRIMARY KEY
 )
 ;
 
-CREATE TABLE 'estadio'
+CREATE TABLE  clube 
 (
-	'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	'capacidade' INTEGER,
-	'nome' TEXT,
-	'precoEntrada' REAL,
-	'precoExpansao' REAL
+	 clubeId  INTEGER NOT NULL PRIMARY KEY,
+	 forca  INTEGER,
+	 nome  TEXT
 )
 ;
 
-CREATE TABLE 'clube'
+CREATE TABLE  estadio 
 (
-	'id' INTEGER NOT NULL PRIMARY KEY,
-	'forca' INTEGER,
-	'nome' TEXT,
+	 estadioId  INTEGER NOT NULL PRIMARY KEY  ,
+	 capacidade  INTEGER,
+	 nome  TEXT,
+	 precoEntrada  REAL,
+	 precoExpansao  REAL,
+	 clubeId  INTEGER NOT NULL,
 
-	CONSTRAINT 'FK_Clube_Estadio' FOREIGN KEY ('id') REFERENCES 'estadio' ('id') ON DELETE No Action ON UPDATE No Action
+	CONSTRAINT  FK_possui_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action
 )
 ;
 
-CREATE TABLE 'jogador'
+CREATE TABLE  jogador 
 (
-	'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	'posicao' INTEGER,
-	'jogando' INTEGER,
-	'motivacao' INTEGER,
-	'habilidade' INTEGER,
-	'condicionamento' INTEGER,
-	'nome' TEXT,
+	 jogadorId  INTEGER NOT NULL PRIMARY KEY  ,
+	 posicao  INTEGER,
+	 jogando  INTEGER,
+	 motivacao  INTEGER,
+	 habilidade  INTEGER,
+	 condicionamento  INTEGER,
+	 nome  TEXT,
+	 clubeId  INTEGER NOT NULL,
+	 lojaId  INTEGER,
 
-	CONSTRAINT 'FK_jogador_clube' FOREIGN KEY ('id') REFERENCES 'clube' ('id') ON DELETE No Action ON UPDATE No Action
+	CONSTRAINT  FK_pertence_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action,
+	CONSTRAINT  FK_vende_jogador  FOREIGN KEY ( lojaId ) REFERENCES  loja  ( lojaId ) ON DELETE No Action ON UPDATE No Action
 )
 ;
 
-CREATE TABLE 'jogo'
+CREATE TABLE  jogo 
 (
-	'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	'golsLocal' INTEGER,
-	'golsVisitante' INTEGER,
-	'lucro' REAL,
-	'vencedor' INTEGER,
+	 jogoId  INTEGER NOT NULL PRIMARY KEY,
+	 golsLocal  INTEGER,
+	 golsVisitante  INTEGER,
+	 lucro  REAL,
+	 vencedor  INTEGER,
+	 estadioId  INTEGER,
+	 clubeId  INTEGER,
 
-	CONSTRAINT 'FK_jogo_campeonato' FOREIGN KEY ('id') REFERENCES 'campeonato' ('id') ON DELETE No Action ON UPDATE No Action,
-	CONSTRAINT 'FK_Visitante_Clube' FOREIGN KEY ('id') REFERENCES 'clube' ('id') ON DELETE No Action ON UPDATE No Action,
-	CONSTRAINT 'FK_Local_Clube' FOREIGN KEY ('id') REFERENCES 'clube' ('id') ON DELETE No Action ON UPDATE No Action
+	CONSTRAINT  FK_contem_jogo  FOREIGN KEY ( estadioId ) REFERENCES  campeonato  ( estadioId ) ON DELETE No Action ON UPDATE No Action,
+	CONSTRAINT  FK_Visitante_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action,
+	CONSTRAINT  FK_Local_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action
 )
 ;
 
-CREATE TABLE 'loja'
-(
-	'id' INTEGER
-)
-;

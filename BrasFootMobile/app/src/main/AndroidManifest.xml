@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sila.brasfootmobile">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,24 +18,7 @@
         <activity android:name=".CriarClube" />
         <activity android:name=".Loja" />
         <activity android:name=".Campeonato" />
-        <activity
-            android:name=".Jogador"
-            android:label="@string/title_activity_jogador"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".TesteJogador"
-            android:label="@string/title_activity_teste_jogador"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Teste"
-            android:label="@string/title_activity_teste"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Jogador"/>
     </application>
 
 </manifest>

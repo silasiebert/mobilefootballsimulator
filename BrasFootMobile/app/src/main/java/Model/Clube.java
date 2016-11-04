@@ -15,10 +15,18 @@ public class Clube {
     private List<Jogador> defensores = new ArrayList<>();
     private List<Jogador> meiocampos = new ArrayList<>();
     private List<Jogador> atacantes = new ArrayList<>();
+    private int clubeId;
+
+
 
     private Estadio estadio;
     private String nome;
     private int forca;
+
+    public Clube(int clubeId, String nome) {
+        this.clubeId = clubeId;
+        this.nome = nome;
+    }
 
     public int getForca(int pos) {
         forca=0;
@@ -49,16 +57,7 @@ public class Clube {
         }
         return forca;
     }
-
-    public void setForca(int forca) {
-        this.forca = forca;
-    }
-
-    public Clube(String nome, List<Jogador> jogadores, Estadio e) {
-        this.estadio = e;
-        this.nome = nome;
-        this.jogadores = jogadores;
-
+    public void classificarJogadores(){
         for (Jogador j:jogadores
                 ) {
             if (j.getPosicao()==Jogador.DEFENSOR){
@@ -75,30 +74,30 @@ public class Clube {
             else
             if(j.getPosicao()==Jogador.GOLEIRO){
                 goleiros.add(j);
-                }
+            }
 
         }
 
-/*
-        for (Jogador j :defensores
-                ) {
-            defesa+=j.getForca();
-        }
+    }
+    public void setForca(int forca) {
+        this.forca = forca;
+    }
 
-        for (Jogador j :meiocampos
-                ) {
-            defesa+=j.getForca();
-            ataque+=j.getForca();
-        }
+    public Clube(String nome, List<Jogador> jogadores, Estadio e) {
+        this.estadio = e;
+        this.nome = nome;
+        this.jogadores = jogadores;
 
-        for (Jogador j :atacantes
-                ) {
-            ataque+=j.getForca();
-        }
 
-        ataque = ataque /6;
-        defesa = defesa / 8;
-    */
+    }
+
+    public List<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public void setJogadores(List<Jogador> jogadores) {
+        this.jogadores = jogadores;
+        classificarJogadores();
     }
 
     public String getNome() {
@@ -115,5 +114,13 @@ public class Clube {
 
     public void setEstadio(Estadio estadio) {
         this.estadio = estadio;
+    }
+
+    public int getClubeId() {
+        return clubeId;
+    }
+
+    public void setClubeId(int clubeId) {
+        this.clubeId = clubeId;
     }
 }
