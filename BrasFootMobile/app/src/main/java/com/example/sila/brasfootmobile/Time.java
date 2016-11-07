@@ -50,24 +50,28 @@ public class Time extends AppCompatActivity {
         }
         c.close();
         lvDefensores.setAdapter(new ArrayAdapter<String>(getBaseContext(),
-                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_list_item_multiple_choice,
                 android.R.id.text1,
                 defensores));
+        lvDefensores.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
     }
     public void carregarAtacantes(){
-        ArrayList<String>atacantes = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT jogador.nome FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao ="+ Jogador.ATACANTE+" AND clube.nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'",null);
+        ArrayList<Jogador>atacantes = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao ="+ Jogador.ATACANTE+" AND clube.nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'",null);
         c.moveToFirst();
         while (!c.isAfterLast()){
-            atacantes.add(c.getString(c.getColumnIndex("jogador.nome")));
+
+            atacantes.add(new Jogador(c.getInt(c.getColumnIndex("jogador.habilidade")),c.getString(c.getColumnIndex("jogador.nome")), c.getInt(c.getColumnIndex("jogador.posicao")), c.getInt(c.getColumnIndex("jogador.condicionamento")), c.getInt(c.getColumnIndex("jogador.motivacao")), c.getInt(c.getColumnIndex("jogador.jogando"))!=0));
             c.moveToNext();
         }
         c.close();
-        lvAtacantes.setAdapter(new ArrayAdapter<String>(getBaseContext(),
-                android.R.layout.simple_list_item_1,
+
+        lvAtacantes.setAdapter(new ArrayAdapter<Jogador>(getBaseContext(),
+                android.R.layout.simple_list_item_multiple_choice,
                 android.R.id.text1,
                 atacantes));
+        lvAtacantes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
     }
     public void carregarGoleiros(){
@@ -97,17 +101,17 @@ public class Time extends AppCompatActivity {
         }
         c.close();
         lvMeioCampos.setAdapter(new ArrayAdapter<String>(getBaseContext(),
-                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_list_item_multiple_choice,
                 android.R.id.text1,
                 meiocampos));
-
+        lvMeioCampos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
     public void selecionarGoleiro(){
     lvGoleiros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 nomeGoleiro = (String) lvGoleiros.getItemAtPosition(position);
-            }
+                }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

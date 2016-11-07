@@ -73,4 +73,9 @@ public class Jogador {
     public void setMotivacao(int motivacao) {
         this.motivacao = motivacao;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
