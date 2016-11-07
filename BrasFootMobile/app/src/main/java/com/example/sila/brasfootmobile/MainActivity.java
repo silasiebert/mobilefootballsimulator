@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         criarTabelas();
         gerarJogadores();
 
-        Intent intent = new Intent(getApplicationContext(),CriarClube.class);
+        Intent intent = new Intent(getApplicationContext(),EscolherClube.class);
         finish();
         startActivity(intent);
     }

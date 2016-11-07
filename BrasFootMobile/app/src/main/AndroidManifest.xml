@@ -15,10 +15,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Time" />
-        <activity android:name=".CriarClube" />
+        <activity android:name=".EscolherClube" />
         <activity android:name=".Loja" />
         <activity android:name=".Campeonato" />
-        <activity android:name=".Jogador"/>
+        <activity android:name=".JogadorActivity"/>
     </application>
 
 </manifest>

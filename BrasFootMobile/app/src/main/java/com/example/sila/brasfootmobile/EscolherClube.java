@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import Model.Clube;
 
-public class CriarClube extends AppCompatActivity {
+public class EscolherClube extends AppCompatActivity {
     private Button btConfirmar;
     private SQLiteDatabase db;
     private TextView tvClubes, tvJogadores;
@@ -31,7 +31,7 @@ public class CriarClube extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_criar_clube);
+        setContentView(R.layout.activity_esolher_clube);
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         tvClubes = (TextView) findViewById(R.id.tvClubes);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
