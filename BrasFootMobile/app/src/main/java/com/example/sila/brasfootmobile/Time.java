@@ -35,6 +35,40 @@ public class Time extends AppCompatActivity {
 
 
         carregarGoleiros();
+        carregarAtacantes();
+        carregarMeiCampos();
+        carregarDefensores();
+    }
+    public void carregarDefensores(){
+        ArrayList<String>defensores = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT jogador.nome FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao ="+ Jogador.DEFENSOR+" AND clube.nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'",null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast()){
+            defensores.add(c.getString(c.getColumnIndex("jogador.nome")));
+            c.moveToNext();
+        }
+        c.close();
+        lvDefensores.setAdapter(new ArrayAdapter<String>(getBaseContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                defensores));
+
+    }
+    public void carregarAtacantes(){
+        ArrayList<String>atacantes = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT jogador.nome FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao ="+ Jogador.ATACANTE+" AND clube.nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'",null);
+        c.moveToFirst();
+        while (!c.isAfterLast()){
+            atacantes.add(c.getString(c.getColumnIndex("jogador.nome")));
+            c.moveToNext();
+        }
+        c.close();
+        lvAtacantes.setAdapter(new ArrayAdapter<String>(getBaseContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                atacantes));
+
     }
     public void carregarGoleiros(){
         ArrayList<String>goleiros = new ArrayList<>();
@@ -45,11 +79,27 @@ public class Time extends AppCompatActivity {
             goleiros.add(c.getString(c.getColumnIndex("jogador.nome")));
             c.moveToNext();
         }
-
+        c.close();
         lvGoleiros.setAdapter(new ArrayAdapter<String>(getBaseContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 goleiros));
+
+    }
+    public void carregarMeiCampos(){
+        ArrayList<String>meiocampos = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT jogador.nome FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao ="+ Jogador.MEIOCAMPO+" AND clube.nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'",null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast()){
+            meiocampos.add(c.getString(c.getColumnIndex("jogador.nome")));
+            c.moveToNext();
+        }
+        c.close();
+        lvMeioCampos.setAdapter(new ArrayAdapter<String>(getBaseContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                meiocampos));
 
     }
     public void selecionarGoleiro(){
@@ -65,7 +115,12 @@ public class Time extends AppCompatActivity {
             }
         });
     }
+    public void salvarTime(View view){
+        //Atualiza no banco qual vai ser o goleiro em campo e tira os outros do campo.
+        db.execSQL("UPDATE jogador SET jogando = 1 WHERE nome="+nomeGoleiro+";");
+        db.execSQL("UPDATE jogador SET jogando = 0 WHERE nome !="+nomeGoleiro+";");
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

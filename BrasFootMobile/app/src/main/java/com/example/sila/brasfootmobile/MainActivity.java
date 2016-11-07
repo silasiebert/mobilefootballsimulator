@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private TextView tvJogadores;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
-    private ListView lvClubes;
     private  ArrayList<Clube> clubes = new ArrayList<>();
     public void criarTabelas() {
         db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT);");
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
-        lvClubes  = (ListView) findViewById(R.id.lvClubes);
 
 
     }
@@ -113,57 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES (" + j.getPosicao() + "," + jogand + "," + j.getMotivacao() + "," + j.getHabilidade() + "," + j.getCondicionamento() + ",'" + j.getNome() + "'," + clube.getClubeId() + ");");
             }
         }
+ }
 
-
-
-
-    }
-    public void mostrarDados(){
-        String[] nomes= new String[db.rawQuery("SELECT count(clubeId) FROM clube",null).getCount()];
-        int size = 0;
-        Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
-        String texto = "";
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            texto += cursor.getString(cursor.getColumnIndex("clubeId"));
-            texto += ": " + cursor.getString(cursor.getColumnIndex("nome"));
-            nomes[size]=cursor.getString(cursor.getColumnIndex("nome"));
-            size++;
-            texto += "\n";
-
-            cursor.moveToNext();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getBaseContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                nomes
-        );
-        lvClubes.setAdapter(adapter);
-        lvClubes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                String dis = (String) lvClubes.getItemAtPosition(position);
-
-                Cursor cursorJ = db.rawQuery("SELECT * FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
-                String txt = "";
-                cursorJ.moveToFirst();
-                while (!cursorJ.isAfterLast()) {
-                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogadorId"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("nome"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("habilidade"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("motivacao"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("condicionamento"));
-
-
-                    txt += "\n";
-                    cursorJ.moveToNext();
-                }
-                tvJogadores.setText(txt);
-            }
-        });
-
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
