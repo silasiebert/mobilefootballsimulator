@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import Model.Liga;
 public class Campeonato extends AppCompatActivity {
     private TextView tvClubes,tvAndamento,tvGols,tvLucro;
     private SQLiteDatabase db;
+    private Button btJogar;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class Campeonato extends AppCompatActivity {
         tvClubes= (TextView) findViewById(R.id.tvClubes);
         tvGols= (TextView) findViewById(R.id.tvGols);
         tvLucro= (TextView) findViewById(R.id.tvLucro);
+        btJogar = (Button) findViewById(R.id.btJogar);
     }
 
     public void rodarPartida(View v){
@@ -93,8 +96,14 @@ public class Campeonato extends AppCompatActivity {
                 }
             }
         fase++;
+
+        Cursor curs = db.rawQuery("SELECT * FROM clube",null);
+
+        if(fase>curs.getCount()-1){
+            btJogar.setClickable(false);
+        }
         s.edit().putInt("fase",fase).commit();
-       Toast.makeText(getApplicationContext(),Integer.toString(fase),Toast.LENGTH_LONG);
+       Toast.makeText(getApplicationContext(),Integer.toString(fase),Toast.LENGTH_LONG).show();
 
 
 
@@ -107,18 +116,22 @@ public class Campeonato extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
+                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
+                finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

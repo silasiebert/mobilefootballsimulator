@@ -21,18 +21,22 @@ public class Loja extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
+                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
+                finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

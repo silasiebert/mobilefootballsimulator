@@ -22,6 +22,7 @@ import Model.Jogador;
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private TextView tvJogadores;
+    private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private ListView lvClubes;
     private  ArrayList<Clube> clubes = new ArrayList<>();
     public void criarTabelas() {
@@ -32,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void apagarTabelas() {
+
         //db.execSQL("DROP TABLE campeonato;");
-        db.execSQL("DROP TABLE clube;");
-        db.execSQL("DROP TABLE estadio;");
-        db.execSQL("DROP TABLE jogador;");
-        db.execSQL("DROP TABLE jogo;");
+        db.execSQL("DROP TABLE IF EXISTS clube;");
+        db.execSQL("DROP TABLE IF EXISTS estadio;");
+        db.execSQL("DROP TABLE IF EXISTS jogador;");
+        db.execSQL("DROP TABLE IF EXISTS jogo;");
         //db.execSQL("DROP TABLE loja;");
+
 
     }
 
@@ -50,16 +53,18 @@ public class MainActivity extends AppCompatActivity {
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
         lvClubes  = (ListView) findViewById(R.id.lvClubes);
 
-        mostrarDados();
 
     }
 
     public void novoJogo(View v) {
+        getSharedPreferences(ARQUIVO_PREFERENCIAS,0).edit().putInt("fase",0).commit();
+
         apagarTabelas();
         criarTabelas();
         gerarJogadores();
 
         Intent intent = new Intent(getApplicationContext(),CriarClube.class);
+        finish();
         startActivity(intent);
     }
 
@@ -67,12 +72,15 @@ public class MainActivity extends AppCompatActivity {
         Estadio estadio = new Estadio(100, "Maracana", 123, 123, 1);
         Clube botafogo = new Clube(1, "Botafogo");
         Clube fluminense = new Clube(2, "Fluminense");
-
-
+        Clube figueirense = new Clube(3, "Figueirense");
+        Clube avai = new Clube(4, "Avaí");
+        Clube atleticoDeIbirama =new Clube(5,"Atlético de Ibirama") ;
 
         clubes.add(botafogo);
         clubes.add(fluminense);
-
+        clubes.add(figueirense);
+        clubes.add(avai);
+        clubes.add(atleticoDeIbirama);
         //Gerador de 20 jogadores aleatorios para cada clube
         ArrayList<Jogador> jogadores;
         for (Clube c : clubes) {
@@ -94,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        criarTabelas();
         int jogand = 0;
         //Insercao dos clubes e dos jogadores no banco
         for (Clube clube : clubes) {
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void mostrarDados(){
-        String[] nomes= new String[2];
+        String[] nomes= new String[db.rawQuery("SELECT count(clubeId) FROM clube",null).getCount()];
         int size = 0;
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
         String texto = "";
@@ -168,15 +175,19 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
+                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
+                finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

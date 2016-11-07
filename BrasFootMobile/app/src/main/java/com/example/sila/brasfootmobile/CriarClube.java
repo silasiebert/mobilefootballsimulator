@@ -41,9 +41,11 @@ public class CriarClube extends AppCompatActivity {
         mostrarDados();
     }
     public void mostrarDados(){
-        String[] nomes= new String[2];
-        int size = 0;
+
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
+        String[] nomes= new String[cursor.getCount()];
+        int size = 0;
+
         String texto = "";
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -96,7 +98,9 @@ public class CriarClube extends AppCompatActivity {
         editor.putString("clube", dis);
         editor.commit();
         Toast.makeText(getApplicationContext(),sharedPreferences.getString("clube",""),Toast.LENGTH_LONG).show();
-
+        Intent intent = new Intent(getApplicationContext(),Campeonato.class);
+        finish();
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,18 +110,22 @@ public class CriarClube extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
+                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
+                finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
