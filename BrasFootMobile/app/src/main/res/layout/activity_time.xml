@@ -15,48 +15,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:text="Salvar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/btSalvar"
-            android:background="@color/primary" />
-
         <TextView
-            android:text="Time"
+            android:text="@string/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvNomeClube"
             android:textSize="24sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:textAlignment="center" />
 
-        <TextView
-            android:text="Goleiro"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_below="@+id/tvNomeClube"
-            android:layout_alignParentStart="true" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/goleiro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvGoleiros"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvQuantGoleiros"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentStart="true"
             android:id="@+id/lvGoleiros" />
 
-        <TextView
-            android:text="Atacantes"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/listView"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="17dp"
-            android:id="@+id/textView10" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/atacantes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvAtacantes"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvQuantAtacantes"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
@@ -65,27 +77,64 @@
 
         </ListView>
 
-        <TextView
-            android:text="Meio Campos"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView11" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/meiocampos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvMeioCampos"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvQuantMeioCampos"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:id="@+id/lvMeioCampos" />
 
-        <TextView
-            android:text="Defensores"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView12" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/defensores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDefensores"
+                android:textSize="18sp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvQuantDefensores"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:id="@+id/lvDefensores" />
+
+        <Button
+            android:text="@string/salvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btSalvar"
+            android:onClick="salvarTime" />
     </LinearLayout>
 
 </RelativeLayout>

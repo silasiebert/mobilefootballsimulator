@@ -1,12 +1,16 @@
 package com.example.sila.brasfootmobile;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void novoJogo(View v) {
-        getSharedPreferences(ARQUIVO_PREFERENCIAS,0).edit().putInt("fase",0).commit();
+        getSharedPreferences(ARQUIVO_PREFERENCIAS,0).edit().putInt("fase",0).apply();
 
         apagarTabelas();
         criarTabelas();
@@ -75,22 +79,33 @@ public class MainActivity extends AppCompatActivity {
         clubes.add(figueirense);
         clubes.add(avai);
         clubes.add(atleticoDeIbirama);
-        //Gerador de 20 jogadores aleatorios para cada clube
         ArrayList<Jogador> jogadores;
         for (Clube c : clubes) {
             jogadores = new ArrayList<>();
             //int numeroAletorio =(int)(Math.random()*30)+20;
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "1", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "2", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "3", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "4", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "5", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "5", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "7", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "8", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "9", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "10", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
-            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "11", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+
+            //Goleiros
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Rondinelli", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Valdivia", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false));
+
+            //Atacantes
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Rivelino", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Riquelme", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Romario", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Edson", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "David Luiz", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Bernard", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false));
+            //Defensor
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Luiz Gustavo", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Anderson", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Fred", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Alex Sandro", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false));
+            //Meiocampos
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Sergio", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Mario", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Oscar", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true));
+            jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Andre", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, true
+            ));
             c.setJogadores(jogadores);
 
         }
@@ -103,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
             for (Jogador j : clube.getJogadores()) {
                 if (j.isJogando()) {
                     jogand = 1;
+                }else {
+                    jogand = 0;
                 }
                 db.execSQL("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES (" + j.getPosicao() + "," + jogand + "," + j.getMotivacao() + "," + j.getHabilidade() + "," + j.getCondicionamento() + ",'" + j.getNome() + "'," + clube.getClubeId() + ");");
             }
@@ -127,15 +144,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menuLoja:
-                startActivity(new Intent(getApplicationContext(), LojaJogador.class));
+                startActivity(new Intent(getApplicationContext(), Loja.class));
                 finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
-                finish();
-                break;
-            case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
         }
