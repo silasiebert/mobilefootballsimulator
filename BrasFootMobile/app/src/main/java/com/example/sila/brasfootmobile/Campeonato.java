@@ -14,10 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import Model.Clube;
-import Model.Estadio;
 import Model.Jogador;
 import Model.Jogo;
 import Model.Liga;
@@ -131,6 +129,10 @@ public class Campeonato extends AppCompatActivity {
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
+                break;
+            case R.id.menuEstadio:
+                startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
         }

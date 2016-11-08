@@ -16,36 +16,45 @@
         android:layout_height="match_parent">
 
         <Button
-            android:text="@string/salvar"
+            android:text="Salvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:id="@+id/btSalvar"
-            android:onClick="salvarTime" />
+            android:background="@color/primary" />
 
         <TextView
-            android:text="@string/time"
+            android:text="Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvNomeClube"
             android:textSize="24sp"
-             />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
-            android:text="@string/goleiro"
+            android:text="Goleiro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
-            />
+            android:layout_below="@+id/tvNomeClube"
+            android:layout_alignParentStart="true" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentStart="true"
             android:id="@+id/lvGoleiros" />
 
         <TextView
-            android:text="@string/atacantes"
+            android:text="Atacantes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/listView"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="17dp"
             android:id="@+id/textView10" />
 
@@ -57,7 +66,7 @@
         </ListView>
 
         <TextView
-            android:text="@string/meiocampos"
+            android:text="Meio Campos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView11" />
@@ -68,7 +77,7 @@
             android:id="@+id/lvMeioCampos" />
 
         <TextView
-            android:text="@string/defensores"
+            android:text="Defensores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView12" />

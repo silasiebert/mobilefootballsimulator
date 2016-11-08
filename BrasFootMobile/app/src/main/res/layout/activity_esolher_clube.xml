@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btConfirmar"
             android:clickable="false"
-            android:onClick="escolher" />
+            android:onClick="escolher"
+            android:background="@color/primary" />
 
     </LinearLayout>
 

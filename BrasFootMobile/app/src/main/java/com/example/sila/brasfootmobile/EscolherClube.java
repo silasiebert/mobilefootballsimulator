@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import Model.Clube;
+import Model.*;
 
 public class EscolherClube extends AppCompatActivity {
     private Button btConfirmar;
@@ -57,8 +57,7 @@ public class EscolherClube extends AppCompatActivity {
 
             cursor.moveToNext();
         }
-        cursor.close();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getBaseContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
@@ -70,20 +69,20 @@ public class EscolherClube extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
                 dis = (String) lvClubes.getItemAtPosition(pos);
                 btConfirmar.setClickable(true);
-                Cursor cursorJ = db.rawQuery("SELECT jogador.nome,jogador.habilidade,jogador.motivacao,jogador.condicionamento FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
+                Cursor cursorJ = db.rawQuery("SELECT * FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
                 String txt = "";
                 cursorJ.moveToFirst();
                 while (!cursorJ.isAfterLast()) {
-                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogador.nome"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.habilidade"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.motivacao"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.condicionamento"));
+                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogadorId"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("nome"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("habilidade"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("motivacao"));
+                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("condicionamento"));
 
 
                     txt += "\n";
                     cursorJ.moveToNext();
                 }
-                cursorJ.close();
                 tvJogadores.setText(txt);
             }
             @Override
@@ -97,7 +96,7 @@ public class EscolherClube extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("clube", dis);
-        editor.apply();
+        editor.commit();
         Toast.makeText(getApplicationContext(),sharedPreferences.getString("clube",""),Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(),Campeonato.class);
         finish();
@@ -121,11 +120,15 @@ public class EscolherClube extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menuLoja:
-                startActivity(new Intent(getApplicationContext(), Loja.class));
+                startActivity(new Intent(getApplicationContext(), LojaJogador.class));
                 finish();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
+                break;
+            case R.id.menuEstadio:
+                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
                 finish();
                 break;
         }

@@ -23,4 +23,10 @@
         android:title="Campeonato"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menuEstadio"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Estadio"
+        app:showAsAction="never" />
+
     </menu>

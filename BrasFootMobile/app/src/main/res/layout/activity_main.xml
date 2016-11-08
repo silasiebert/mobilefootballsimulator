@@ -10,25 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sila.brasfootmobile.MainActivity">
 
-    <Button
-        android:text="@string/newgame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btNovoJogo"
-        android:onClick="novoJogo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="1" />
-
-    <Button
-        android:text="@string/resume"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btContinuar"
-        android:layout_weight="1"
-        android:layout_below="@+id/btNovoJogo"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:text="Jogadores"
         android:layout_width="wrap_content"
@@ -47,5 +28,27 @@
         android:id="@+id/tvJogadores"
         android:layout_below="@+id/textView9"
         android:layout_alignEnd="@+id/textView9" />
+
+    <Button
+        android:text="@string/resume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btContinuar"
+        android:layout_weight="1"
+        android:background="@color/primary"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="@string/newgame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btNovoJogo"
+        android:onClick="novoJogo"
+        android:layout_weight="1"
+        android:background="@color/primary"
+        android:layout_above="@+id/btContinuar"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="48dp" />
 
 </RelativeLayout>

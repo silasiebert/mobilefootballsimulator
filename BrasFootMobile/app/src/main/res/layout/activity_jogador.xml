@@ -28,11 +28,23 @@
         <TextView
             android:layout_width="187dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tNome"
+            android:id="@+id/tvNome"
             android:textSize="25sp" />
 
         <TextView
             android:text="Posição:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView13"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPosicao" />
+
+        <TextView
+            android:text="Habilidade:"
             android:layout_width="178dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView8"
@@ -41,10 +53,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tPosicao" />
+            android:id="@+id/tvHabilidade" />
 
         <TextView
-            android:text="Ataque:"
+            android:text="Motivação:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView5"
@@ -53,10 +65,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tAtaque" />
+            android:id="@+id/tvMotivacao" />
 
         <TextView
-            android:text="Defesa:"
+            android:text="Condicionamento:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView6"
@@ -65,7 +77,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tDefesa" />
+            android:id="@+id/tvCondicionamento" />
+
+        <Button
+            android:text="Treinamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btTreinar"
+            android:background="@color/primary" />
 
     </LinearLayout>
 
