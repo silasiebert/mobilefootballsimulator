@@ -178,11 +178,13 @@ public class Time extends AppCompatActivity {
         jogadors.addAll(atacantes);
         jogadors.addAll(meiocampos);
         jogadors.addAll(defensores);
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor c = db.rawQuery("SELECT clubeId from clube WHERE" +
                 " nome='" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         int meuClubeId = c.getInt(c.getColumnIndex("clubeId"));
         c.close();
+
         for (Jogador j : jogadors) {
             if (j.isJogando()) {
                 db.execSQL("UPDATE jogador SET jogando = '1' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
@@ -190,6 +192,7 @@ public class Time extends AppCompatActivity {
                 db.execSQL("UPDATE jogador SET jogando = '0' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
             }
         }
+        db.close();
         Intent intent = new Intent(getApplicationContext(), Campeonato.class);
         finish();
         startActivity(intent);
@@ -272,28 +275,23 @@ public class Time extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                db.close();
                 finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
                 finish();
-                db.close();
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
                 finish();
-                db.close();
                 break;
             case R.id.menuEstadio:
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
-                db.close();
                 break;
             case R.id.menuJogos:
                 startActivity(new Intent(getApplicationContext(), JogosActivity.class));
                 finish();
-                db.close();
                 break;
         }
         return super.onOptionsItemSelected(item);
