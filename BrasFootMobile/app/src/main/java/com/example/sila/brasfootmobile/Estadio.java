@@ -3,15 +3,41 @@ package com.example.sila.brasfootmobile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Scanner;
 
 public class Estadio extends AppCompatActivity {
+    private TextView tvValorMostrado;
+    private EditText valorRecebido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadio);
+        tvValorMostrado= (TextView) findViewById(R.id.tvValorMostrado);
+        valorRecebido = (EditText) findViewById(R.id.etValorDigitado);
+
+    }
+
+    public void test(View v){
+        Editable texto = this.valorRecebido.getText();
+        String ss = texto.toString();
+
+
+        tvValorMostrado.setText(ss);
+    }
+
+    public void calcular(){
+
+
     }
 
     @Override
@@ -40,10 +66,11 @@ public class Estadio extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
+                startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 }
+
