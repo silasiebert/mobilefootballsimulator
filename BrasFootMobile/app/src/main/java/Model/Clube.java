@@ -33,25 +33,25 @@ public class Clube {
         if (pos==Jogador.ATACANTE){
             for(Jogador j:atacantes){
                 if(j.isJogando())
-                forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
+                forca+=j.getCondicionamento()*j.getHabilidade()*(j.getMotivacao()/100);
             }
             forca=forca/atacantes.size();
             }else if(pos==Jogador.DEFENSOR){
             for(Jogador j:defensores){
                 if(j.isJogando())
-                forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
+                forca+=j.getCondicionamento()*j.getHabilidade()*(j.getMotivacao()/100);
             }
             forca=forca/defensores.size();
             }else if(pos==Jogador.MEIOCAMPO){
             for(Jogador j:meiocampos){
                 if(j.isJogando())
-                forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
+                forca+=j.getCondicionamento()*j.getHabilidade()*(j.getMotivacao()/100);
             }
             forca=forca/meiocampos.size();
             }else if(pos==Jogador.GOLEIRO){
             for(Jogador j:goleiros){
                 if(j.isJogando())
-                forca+=j.getCondicionamento()+j.getHabilidade()+j.getMotivacao();
+                forca+=j.getCondicionamento()*j.getHabilidade()*(j.getMotivacao()/100);
             }
             forca=forca/goleiros.size();
         }
@@ -81,6 +81,10 @@ public class Clube {
     }
     public void setForca(int forca) {
         this.forca = forca;
+    }
+
+    public Clube(String nome) {
+        this.nome = nome;
     }
 
     public Clube(String nome, List<Jogador> jogadores, Estadio e) {

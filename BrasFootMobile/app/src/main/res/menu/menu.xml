@@ -29,4 +29,10 @@
         android:title="Estadio"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menuJogos"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Jogos"
+        app:showAsAction="never" />
+
     </menu>

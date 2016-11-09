@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvJogadores;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private  ArrayList<Clube> clubes = new ArrayList<>();
+    private String nomeArquivo = "jogos.txt";
+
     public void criarTabelas() {
         db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT);");
         db.execSQL("CREATE TABLE  IF NOT EXISTS estadio (estadioId  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,capacidade  INTEGER,nome  TEXT, precoEntrada  REAL,precoExpansao  REAL,clubeId  INTEGER NOT NULL,CONSTRAINT  FK_possui_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action);");
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         apagarTabelas();
         criarTabelas();
         gerarJogadores();
-
+        deleteFile(nomeArquivo);
         Intent intent = new Intent(getApplicationContext(),EscolherClube.class);
         finish();
         startActivity(intent);
@@ -149,6 +151,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
+                break;
+            case R.id.menuEstadio:
+                startActivity(new Intent(getApplicationContext(), Estadio.class));
+                finish();
+                break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
                 finish();
                 break;
         }

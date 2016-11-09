@@ -25,13 +25,13 @@ public class Time extends AppCompatActivity {
     private ListView lvGoleiros, lvAtacantes, lvMeioCampos, lvDefensores;
     ArrayList<Jogador> defensores, atacantes, meiocampos, goleiros;
     private Button btSalvar;
-    private TextView tvQuantGoleiros,tvQuantDefensores,tvQuantAtacantes,tvQuantMeiocampos;
+    private TextView tvQuantGoleiros, tvQuantDefensores, tvQuantAtacantes, tvQuantMeiocampos;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private SQLiteDatabase db;
     private TextView tvNomeClube;
     private AlertDialog.Builder dialog;
     private int emCampo;
-    private Jogador j;
+    private int posJ;
     private boolean colocar;
 
     @Override
@@ -58,7 +58,6 @@ public class Time extends AppCompatActivity {
     public void carregarDefensores() {
         defensores = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.DEFENSOR + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
-
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
@@ -73,7 +72,7 @@ public class Time extends AppCompatActivity {
                 defensores));
         lvDefensores.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        atualizarJogadores(defensores,lvDefensores,tvQuantDefensores);
+        atualizarJogadores(defensores, lvDefensores, tvQuantDefensores);
         selecionarDefensores();
     }
 
@@ -93,7 +92,7 @@ public class Time extends AppCompatActivity {
                 android.R.id.text1,
                 atacantes));
         lvAtacantes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        atualizarJogadores(atacantes,lvAtacantes,tvQuantAtacantes);
+        atualizarJogadores(atacantes, lvAtacantes, tvQuantAtacantes);
         selecionarAtacantes();
     }
 
@@ -112,7 +111,7 @@ public class Time extends AppCompatActivity {
                 android.R.id.text1,
                 goleiros));
         lvGoleiros.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        atualizarJogadores(goleiros,lvGoleiros,tvQuantGoleiros);
+        atualizarJogadores(goleiros, lvGoleiros, tvQuantGoleiros);
         selecionarGoleiro();
     }
 
@@ -131,7 +130,7 @@ public class Time extends AppCompatActivity {
                 android.R.id.text1,
                 meiocampos));
         lvMeioCampos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        atualizarJogadores(meiocampos,lvMeioCampos,tvQuantMeiocampos);
+        atualizarJogadores(meiocampos, lvMeioCampos, tvQuantMeiocampos);
         selecionarMeicampos();
     }
 
@@ -139,7 +138,7 @@ public class Time extends AppCompatActivity {
         lvGoleiros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goleiros.get(position).setJogando(dialogo(goleiros.get(position), goleiros, 1,lvGoleiros,tvQuantGoleiros));
+                dialogo(position, goleiros, 1, lvGoleiros, tvQuantGoleiros);
             }
 //
         });
@@ -149,7 +148,7 @@ public class Time extends AppCompatActivity {
         lvAtacantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                atacantes.get(position).setJogando(dialogo(atacantes.get(position), atacantes, 4,lvAtacantes,tvQuantAtacantes));
+                dialogo(position, atacantes, 4, lvAtacantes, tvQuantAtacantes);
             }
         });
     }
@@ -158,7 +157,7 @@ public class Time extends AppCompatActivity {
         lvMeioCampos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                meiocampos.get(position).setJogando(dialogo(meiocampos.get(position), meiocampos, 4,lvMeioCampos,tvQuantMeiocampos));
+                dialogo(position, meiocampos, 4, lvMeioCampos, tvQuantMeiocampos);
             }
         });
     }
@@ -167,7 +166,7 @@ public class Time extends AppCompatActivity {
         lvDefensores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                defensores.get(position).setJogando(dialogo(defensores.get(position), defensores, 2,lvDefensores,tvQuantDefensores));
+                dialogo(position, defensores, 2, lvDefensores, tvQuantDefensores);
             }
 //
         });
@@ -179,12 +178,16 @@ public class Time extends AppCompatActivity {
         jogadors.addAll(atacantes);
         jogadors.addAll(meiocampos);
         jogadors.addAll(defensores);
-
+        Cursor c = db.rawQuery("SELECT clubeId from clube WHERE" +
+                " nome='" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        c.moveToFirst();
+        int meuClubeId = c.getInt(c.getColumnIndex("clubeId"));
+        c.close();
         for (Jogador j : jogadors) {
             if (j.isJogando()) {
-                db.execSQL("UPDATE jogador SET jogando = 1 FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE nome='" + j.getNome() + "' AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "';");
+                db.execSQL("UPDATE jogador SET jogando = '1' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
             } else {
-                db.execSQL("UPDATE jogador SET jogando = 0 FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE nome !='" + j.getNome() + "' AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "';");
+                db.execSQL("UPDATE jogador SET jogando = '0' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
             }
         }
         Intent intent = new Intent(getApplicationContext(), Campeonato.class);
@@ -192,7 +195,8 @@ public class Time extends AppCompatActivity {
         startActivity(intent);
 
     }
-    public void atualizarJogadores(ArrayList<Jogador>jogadores,ListView listView,TextView textView){
+
+    public void atualizarJogadores(ArrayList<Jogador> jogadores, ListView listView, TextView textView) {
         int quant = 0;
         //Conta quantos jogadores da posicao escolhida estao em campo
         for (Jogador jog : jogadores) {
@@ -213,8 +217,9 @@ public class Time extends AppCompatActivity {
         textView.setText(Integer.toString(quant));
 
     }
-    public boolean dialogo(Jogador jo,final ArrayList<Jogador> jogadores, final int max,final ListView listView,final TextView tv) {
-        this.j = jo;
+
+    public boolean dialogo(int posJogador, final ArrayList<Jogador> jogadores, final int max, final ListView listView, final TextView tv) {
+        this.posJ = posJogador;
         emCampo = 0;
         //Conta quantos jogadores da posicao escolhida estao em campo
         for (Jogador jog : jogadores) {
@@ -224,15 +229,15 @@ public class Time extends AppCompatActivity {
         }
 
         dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Ficha de: " + j.getNome());
-        dialog.setMessage("Condicionamento: " + j.getCondicionamento() + "\nHabilidade: " + j.getHabilidade() + "\nMotivacao: " + j.getMotivacao() + "\nDeseja colocar ou retira o jogador da ação?");
+        dialog.setTitle("Ficha de: " + jogadores.get(posJogador).getNome());
+        dialog.setMessage("Condicionamento: " + jogadores.get(posJogador).getCondicionamento() + "\nHabilidade: " + jogadores.get(posJogador).getHabilidade() + "\nMotivacao: " + jogadores.get(posJogador).getMotivacao() + "\nDeseja colocar ou retira o jogador da ação?");
 
         dialog.setNegativeButton("Retirar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                colocar = false;
-                Toast.makeText(getApplicationContext(), "Jogador " + j.getNome() + " retirado do campo!", Toast.LENGTH_LONG).show();
-                atualizarJogadores(jogadores,listView,tv);
+                jogadores.get(posJ).setJogando(false);
+                Toast.makeText(getApplicationContext(), "Jogador " + jogadores.get(posJ).getNome() + " retirado do campo!", Toast.LENGTH_LONG).show();
+                atualizarJogadores(jogadores, listView, tv);
             }
         });
 
@@ -241,18 +246,15 @@ public class Time extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (emCampo < max) {
-                    colocar = true;
-                    Toast.makeText(getApplicationContext(), "Jogador " + j.getNome() + " adicionado!", Toast.LENGTH_LONG).show();
+                    jogadores.get(posJ).setJogando(true);
+                    Toast.makeText(getApplicationContext(), "Jogador " + jogadores.get(posJ).getNome() + " adicionado!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Numero de jogadores nesta posica exedido!", Toast.LENGTH_LONG).show();
-                    atualizarJogadores(jogadores,listView,tv);
+                    atualizarJogadores(jogadores, listView, tv);
                 }
 
             }
         });
-
-        dialog.setCancelable(true);
-        dialog.setIcon(android.R.drawable.ic_dialog_alert);
         dialog.create();
         dialog.show();
 
@@ -282,6 +284,14 @@ public class Time extends AppCompatActivity {
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
+                break;
+            case R.id.menuEstadio:
+                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
+                finish();
+                break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
                 finish();
                 break;
         }

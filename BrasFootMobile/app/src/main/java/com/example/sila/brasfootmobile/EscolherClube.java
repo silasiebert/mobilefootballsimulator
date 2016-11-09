@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import Model.Clube;
+import Model.*;
 
 public class EscolherClube extends AppCompatActivity {
     private Button btConfirmar;
@@ -70,14 +70,14 @@ public class EscolherClube extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
                 dis = (String) lvClubes.getItemAtPosition(pos);
                 btConfirmar.setClickable(true);
-                Cursor cursorJ = db.rawQuery("SELECT jogador.nome,jogador.habilidade,jogador.motivacao,jogador.condicionamento FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
+                Cursor cursorJ = db.rawQuery("SELECT jogador.nome as nomej,jogador.habilidade as habilidadej,jogador.motivacao as motivacaoj,jogador.condicionamento as condicionamentoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
                 String txt = "";
                 cursorJ.moveToFirst();
                 while (!cursorJ.isAfterLast()) {
-                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogador.nome"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.habilidade"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.motivacao"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.condicionamento"));
+                    txt += cursorJ.getString(cursorJ.getColumnIndex("nomej"));
+                    txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("habilidadej"));
+                    txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("motivacaoj"));
+                    txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("condicionamentoj"));
 
 
                     txt += "\n";
@@ -126,6 +126,14 @@ public class EscolherClube extends AppCompatActivity {
                 break;
             case R.id.menuCampeonato:
                 startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
+                break;
+            case R.id.menuEstadio:
+                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
+                finish();
+                break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
                 finish();
                 break;
         }

@@ -20,7 +20,8 @@
         <activity android:name=".Loja" />
         <activity android:name=".Campeonato" />
         <activity android:name=".JogadorActivity" />
-        <activity android:name=".Estadio"></activity>
+        <activity android:name=".Estadio" />
+        <activity android:name=".JogosActivity"></activity>
     </application>
 
 </manifest>
