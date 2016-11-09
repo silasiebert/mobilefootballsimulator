@@ -21,7 +21,8 @@
         <activity android:name=".Campeonato" />
         <activity android:name=".JogadorActivity" />
         <activity android:name=".Estadio" />
-        <activity android:name=".JogosActivity"></activity>
+        <activity android:name=".JogosActivity" />
+        <activity android:name=".ResultadosActivity"></activity>
     </application>
 
 </manifest>

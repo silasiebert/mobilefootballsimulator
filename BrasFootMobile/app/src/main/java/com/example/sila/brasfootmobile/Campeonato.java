@@ -33,7 +33,6 @@ public class Campeonato extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campeonato);
-        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         tvAndamento = (TextView) findViewById(R.id.tvAndamento);
         tvClubes = (TextView) findViewById(R.id.tvClubes);
         tvGols = (TextView) findViewById(R.id.tvGols);
@@ -46,19 +45,23 @@ public class Campeonato extends AppCompatActivity {
         tvAndamento.setVisibility(View.VISIBLE);
         //recuperar os clubes do banco
         ArrayList<Clube> clubes = new ArrayList<>();
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
         int indiceColunaId = cursor.getColumnIndex("clubeId");
         int indiceColunaNome = cursor.getColumnIndex("nome");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            clubes.add(new Clube(cursor.getInt(indiceColunaId), cursor.getString(indiceColunaNome)));
+            clubes.add(new Clube(cursor.getInt(indiceColunaId), cursor.getString(indiceColunaNome),
+                    cursor.getInt(cursor.getColumnIndex("vitorias")),cursor.getInt(cursor.getColumnIndex("derrotas")),cursor.getInt(cursor.getColumnIndex("empates")),cursor.getInt(cursor.getColumnIndex("pontos"))));
             cursor.moveToNext();
         }
         cursor.close();
+        db.close();
         ArrayList<Jogador> jogadores;
         Cursor cur = null;
         for (Clube c : clubes) {
             jogadores = new ArrayList<>();
+            db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
             cur = db.rawQuery("SELECT * FROM jogador WHERE clubeId = " + c.getClubeId(), null);
             int indiceColunaHabilidade = cur.getColumnIndex("habilidade");
             int indiceNomeJogador = cur.getColumnIndex("nome");
@@ -74,6 +77,7 @@ public class Campeonato extends AppCompatActivity {
             c.setJogadores(jogadores);
         }
         cur.close();
+        db.close();
         SharedPreferences s = getSharedPreferences(ARQUIVO_PREFERENCIAS, 0);
         int fase = s.getInt("fase", 0);
         String meuClube = s.getString("clube", "");
@@ -87,21 +91,25 @@ public class Campeonato extends AppCompatActivity {
 
         Jogo j = null;
         Clube local = null;
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor curs = db.rawQuery("SELECT * FROM clube", null);
 
         if (fase > curs.getCount() - 1) {
-            btJogar.setClickable(false);
+            startActivity(new Intent(getApplicationContext(),ResultadosActivity.class));
+            finish();
         }else{
            local = clubes.get(fase);
             for (Clube visitante : clubes) {
                 if (local != visitante) {
 
                     j = new Jogo(visitante, local);
+                    j.resultado();
 
-
+                    db.execSQL("UPDATE clube SET vitorias = '"+visitante.getVitorias()+"' ,derrotas = '"+visitante.getDerrotas()+"' ,empates = '"+visitante.getEmpates()+"',pontos = '"+visitante.getPontos()+"' WHERE clubeId = '"+visitante.getClubeId()+"'");
+                    db.execSQL("UPDATE clube SET vitorias = '"+local.getVitorias()+"' ,derrotas = '"+local.getDerrotas()+"' ,empates = '"+local.getEmpates()+"',pontos = '"+local.getPontos()+"' WHERE clubeId = '"+local.getClubeId()+"'");
                     if (local == meu || visitante == meu) {
                         tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());
-                        tvAndamento.setText(j.resultado());
+                        tvAndamento.setText(j.getAndamento());
                         tvGols.setText(j.getGolsLocal() + "x" + j.getGolsVisitante());
                     }
                     salvarJogo(j);
@@ -113,7 +121,7 @@ public class Campeonato extends AppCompatActivity {
             s.edit().putInt("fase", fase).apply();
         }
         curs.close();
-
+        db.close();
 
 
 
@@ -126,9 +134,6 @@ public class Campeonato extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(nomeArquivo, MODE_APPEND);
             fos.write(mensagem.getBytes());
             fos.close();
-            Toast.makeText(getApplicationContext(),
-                    "Jogo salvo com sucesso!",
-                    Toast.LENGTH_SHORT).show();
 
         } catch (FileNotFoundException e) {
             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -150,26 +155,21 @@ public class Campeonato extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
-                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
-                finish();
-                break;
-            case R.id.menuCampeonato:
-                startActivity(new Intent(getApplicationContext(), Campeonato.class));
-                finish();
                 break;
             case R.id.menuEstadio:
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
-                finish();
                 break;
             case R.id.menuJogos:
                 startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+                break;
+            case R.id.menuResultados:
+                startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
                 finish();
                 break;
 

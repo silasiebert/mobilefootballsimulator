@@ -1,8 +1,6 @@
 package Model;
 
 
-import java.util.Random;
-
 public class Jogo {
     public static final int VISITANTE = 1;
     public static final int LOCAL = 2;
@@ -15,8 +13,9 @@ public class Jogo {
     private double lucro;
     private int vencedor;
     private int posBola;
+    private String andamento;
 
-    public Jogo(Clube visitante, Clube local, int golsLocal, int golsVisitante, int vencedor) {
+    public Jogo(Clube visitante, Clube local, int golsVisitante, int golsLocal, int vencedor) {
         this.visitante = visitante;
         this.local = local;
         this.golsLocal = golsLocal;
@@ -36,7 +35,7 @@ public class Jogo {
         return e.getCapacidade() * e.getPrecoEntrada();
     }
 
-    public String resultado() {
+    public void resultado() {
         int chanceVisitante, chanceLocal;
         String jogadas = "";
         // meio campo comeca em 3
@@ -57,8 +56,8 @@ public class Jogo {
         for (int jogada = 1; jogada < 20; jogada++) {
 
             if (posBola == 3) {
-                chanceLocal = (int) (local.getForca(Jogador.MEIOCAMPO)+Math.random()*25);
-                chanceVisitante = (int) (visitante.getForca(Jogador.MEIOCAMPO)+Math.random()*25);
+                chanceLocal = (int) (local.getForca(Jogador.MEIOCAMPO) + Math.random() * 25);
+                chanceVisitante = (int) (visitante.getForca(Jogador.MEIOCAMPO) + Math.random() * 25);
                 //local dominou
                 if (chanceLocal >= chanceVisitante) {
                     posBola--;
@@ -71,12 +70,12 @@ public class Jogo {
                 }
 
             } else if (posBola == 2) {
-                chanceVisitante = (int) (visitante.getForca(Jogador.DEFENSOR)+Math.random()*25);
-                chanceLocal = (int) (local.getForca(Jogador.ATACANTE)+Math.random()*25);
+                chanceVisitante = (int) (visitante.getForca(Jogador.DEFENSOR) + Math.random() * 25);
+                chanceLocal = (int) (local.getForca(Jogador.ATACANTE) + Math.random() * 25);
                 //local dominou
                 if (chanceLocal >= chanceVisitante) {
                     posBola--;
-                    jogadas += "\nOs atacantes do " + local.getNome() + " roubam a bola dos defensores do " + visitante.getNome()+" e avancam pro gol.";
+                    jogadas += "\nOs atacantes do " + local.getNome() + " roubam a bola dos defensores do " + visitante.getNome() + " e avançam pro gol.";
                 }
                 //visitante dominou
                 else {
@@ -84,8 +83,8 @@ public class Jogo {
                     posBola++;
                 }
             } else if (posBola == 4) {
-                chanceLocal = (int) (local.getForca(Jogador.DEFENSOR)+Math.random()*25);
-                chanceVisitante = (int) (visitante.getForca(Jogador.ATACANTE)+Math.random()*25);
+                chanceLocal = (int) (local.getForca(Jogador.DEFENSOR) + Math.random() * 25);
+                chanceVisitante = (int) (visitante.getForca(Jogador.ATACANTE) + Math.random() * 25);
                 //local dominou
                 if (chanceLocal >= chanceVisitante) {
                     posBola--;
@@ -93,12 +92,12 @@ public class Jogo {
                 }
                 //visitante dominou
                 else {
-                    jogadas += "\nOs atacantes do " + visitante.getNome() + " roubam a bola dos defensores do " + local.getNome()+" e avancam pro gol.";
+                    jogadas += "\nOs atacantes do " + visitante.getNome() + " roubam a bola dos defensores do " + local.getNome() + " e avançam pro gol.";
                     posBola++;
                 }
             } else if (posBola == 1) {
-                chanceVisitante = (int) (visitante.getForca(Jogador.GOLEIRO)+Math.random()*25);
-                chanceLocal = (int) (local.getForca(Jogador.ATACANTE)+Math.random()*25);
+                chanceVisitante = (int) (visitante.getForca(Jogador.GOLEIRO) + Math.random() * 25);
+                chanceLocal = (int) (local.getForca(Jogador.ATACANTE) + Math.random() * 25);
                 //local fez gol
                 if (chanceLocal >= chanceVisitante) {
                     posBola = 3;
@@ -109,8 +108,8 @@ public class Jogo {
                 else
                     posBola++;
             } else if (posBola == 5) {
-                chanceLocal = (int) (local.getForca(Jogador.GOLEIRO)+Math.random()*25);
-                chanceVisitante = (int) (visitante.getForca(Jogador.ATACANTE)+Math.random()*25);
+                chanceLocal = (int) (local.getForca(Jogador.GOLEIRO) + Math.random() * 25);
+                chanceVisitante = (int) (visitante.getForca(Jogador.ATACANTE) + Math.random() * 25);
                 //local fez gol
                 if (chanceLocal >= chanceVisitante) {
                     posBola--;
@@ -125,17 +124,76 @@ public class Jogo {
             }
 
         }
+
+        lesao();
+        falta();
+
         if (golsLocal > golsVisitante) {
             this.vencedor = LOCAL;
+            this.local.setVitorias(local.getVitorias()+1);
+            this.visitante.setDerrotas(visitante.getDerrotas()+1);
+            this.local.setPontos(local.getPontos()+3);
+            for (Jogador l : local.getJogadores()){
+                l.setMotivacao(l.getMotivacao()+5);
+            }
+            for (Jogador v : visitante.getJogadores()){
+                v.setMotivacao(v.getMotivacao()-5);
+            }
         } else if (golsVisitante > golsLocal) {
             this.vencedor = VISITANTE;
+            this.local.setDerrotas(local.getDerrotas()+1);
+            this.visitante.setVitorias(visitante.getVitorias()+1);
+            this.visitante.setPontos(visitante.getPontos()+6);
+            for (Jogador l : local.getJogadores()){
+                l.setMotivacao(l.getMotivacao()-5);
+            }
+            for (Jogador v : visitante.getJogadores()){
+                v.setMotivacao(v.getMotivacao()+5);
+            }
         } else {
             this.vencedor = EMPATE;
+            this.local.setEmpates(local.getEmpates()+1);
+            this.visitante.setEmpates(visitante.getEmpates()+1);
+            this.visitante.setPontos(visitante.getPontos()+1);
+            this.local.setPontos(local.getPontos()+1);
         }
 
-        return jogadas;
+        andamento = jogadas;
     }
 
+    public String lesao() {
+        Jogador lesionado = null;
+        if (Math.random() * 20 < 1) {
+            if ((int) Math.random() == 1) {
+                lesionado =visitante.getJogadores().get((int) (Math.random() * 11));
+                lesionado.setJogando(false);
+
+            } else {
+                lesionado =visitante.getJogadores().get((int) (Math.random() * 11));
+                lesionado.setJogando(false);
+
+            }
+            return "O jogador "+lesionado.getNome()+" sofre uma lesão.\n";
+        }
+        return "";
+    }
+
+    public String falta() {
+        Jogador ferido = null;
+        if (Math.random() * 10 < 1) {
+            if ((int) Math.random() == 1) {
+                ferido =visitante.getJogadores().get((int) (Math.random() * 11));
+                ferido.setJogando(false);
+
+            } else {
+                ferido =visitante.getJogadores().get((int) (Math.random() * 11));
+                ferido.setJogando(false);
+
+            }
+            return "O jogador "+ferido.getNome()+" sofre uma falta.\n";
+        }
+        return "";
+    }
 
     public Clube getVisitante() {
         return visitante;
@@ -183,6 +241,14 @@ public class Jogo {
 
     public void setVencedor(int vencedor) {
         this.vencedor = vencedor;
+    }
+
+    public String getAndamento() {
+        return andamento;
+    }
+
+    public void setAndamento(String andamento) {
+        this.andamento = andamento;
     }
 
     @Override

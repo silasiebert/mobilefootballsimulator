@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import Model.Jogador;
+import Model.*;
 
 public class Time extends AppCompatActivity {
     private ListView lvGoleiros, lvAtacantes, lvMeioCampos, lvDefensores;
@@ -57,11 +57,11 @@ public class Time extends AppCompatActivity {
 
     public void carregarDefensores() {
         defensores = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.DEFENSOR + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.DEFENSOR + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            defensores.add(new Jogador(c.getInt(c.getColumnIndex("jogador.habilidade")), c.getString(c.getColumnIndex("jogador.nome")), c.getInt(c.getColumnIndex("jogador.posicao")), c.getInt(c.getColumnIndex("jogador.condicionamento")), c.getInt(c.getColumnIndex("jogador.motivacao")), c.getInt(c.getColumnIndex("jogador.jogando")) != 0));
+            defensores.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0));
             c.moveToNext();
         }
 
@@ -78,11 +78,11 @@ public class Time extends AppCompatActivity {
 
     public void carregarAtacantes() {
         atacantes = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.ATACANTE + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.ATACANTE + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            atacantes.add(new Jogador(c.getInt(c.getColumnIndex("jogador.habilidade")), c.getString(c.getColumnIndex("jogador.nome")), c.getInt(c.getColumnIndex("jogador.posicao")), c.getInt(c.getColumnIndex("jogador.condicionamento")), c.getInt(c.getColumnIndex("jogador.motivacao")), c.getInt(c.getColumnIndex("jogador.jogando")) != 0));
+            atacantes.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0));
             c.moveToNext();
         }
         c.close();
@@ -98,11 +98,11 @@ public class Time extends AppCompatActivity {
 
     public void carregarGoleiros() {
         goleiros = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.GOLEIRO + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.GOLEIRO + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            goleiros.add(new Jogador(c.getInt(c.getColumnIndex("jogador.habilidade")), c.getString(c.getColumnIndex("jogador.nome")), c.getInt(c.getColumnIndex("jogador.posicao")), c.getInt(c.getColumnIndex("jogador.condicionamento")), c.getInt(c.getColumnIndex("jogador.motivacao")), c.getInt(c.getColumnIndex("jogador.jogando")) != 0));
+            goleiros.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0));
             c.moveToNext();
         }
         c.close();
@@ -117,11 +117,11 @@ public class Time extends AppCompatActivity {
 
     public void carregarMeiCampos() {
         meiocampos = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT jogador.habilidade,jogador.nome,jogador.posicao,jogador.condicionamento,jogador.motivacao,jogador.jogando FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.MEIOCAMPO + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE posicao =" + Jogador.MEIOCAMPO + " AND clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            meiocampos.add(new Jogador(c.getInt(c.getColumnIndex("jogador.habilidade")), c.getString(c.getColumnIndex("jogador.nome")), c.getInt(c.getColumnIndex("jogador.posicao")), c.getInt(c.getColumnIndex("jogador.condicionamento")), c.getInt(c.getColumnIndex("jogador.motivacao")), c.getInt(c.getColumnIndex("jogador.jogando")) != 0));
+            meiocampos.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0));
             c.moveToNext();
         }
         c.close();
@@ -178,11 +178,13 @@ public class Time extends AppCompatActivity {
         jogadors.addAll(atacantes);
         jogadors.addAll(meiocampos);
         jogadors.addAll(defensores);
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor c = db.rawQuery("SELECT clubeId from clube WHERE" +
                 " nome='" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         int meuClubeId = c.getInt(c.getColumnIndex("clubeId"));
         c.close();
+
         for (Jogador j : jogadors) {
             if (j.isJogando()) {
                 db.execSQL("UPDATE jogador SET jogando = '1' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
@@ -190,6 +192,7 @@ public class Time extends AppCompatActivity {
                 db.execSQL("UPDATE jogador SET jogando = '0' WHERE nome = '" + j.getNome() + "' AND clubeId = '" + meuClubeId + "';");
             }
         }
+        db.close();
         Intent intent = new Intent(getApplicationContext(), Campeonato.class);
         finish();
         startActivity(intent);
@@ -274,10 +277,6 @@ public class Time extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
                 break;
-            case R.id.menuTime:
-                startActivity(new Intent(getApplicationContext(), Time.class));
-                finish();
-                break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
                 finish();
@@ -287,7 +286,7 @@ public class Time extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
+                startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
             case R.id.menuJogos:
@@ -297,5 +296,4 @@ public class Time extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -52,11 +52,18 @@ public class JogosActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Jogo jogo = jogos.get(position);
-
+                String vencedor = "";
+                if(jogo.getVencedor()==Jogo.LOCAL){
+                    vencedor=jogo.getLocal().getNome();
+                }else if(jogo.getVencedor()==Jogo.VISITANTE){
+                    vencedor=jogo.getVisitante().getNome();
+                }else {
+                    vencedor= "Empate";
+                }
                 dialog = new AlertDialog.Builder(JogosActivity.this);
                 dialog.setTitle(jogo.getVisitante().getNome() + " X " + jogo.getLocal().getNome());
                 dialog.setMessage("Gols do " + jogo.getVisitante().getNome() + ": " + jogo.getGolsVisitante() +
-                        "\nGols do " + jogo.getLocal().getNome() + ":" + jogo.getGolsLocal());
+                        "\nGols do " + jogo.getLocal().getNome() + ":" + jogo.getGolsLocal()+"\nVencedor: "+vencedor);
                 dialog.create();
                 dialog.show();
             }
@@ -75,7 +82,6 @@ public class JogosActivity extends AppCompatActivity {
                 jogos.add(new Jogo(new Clube(dados[0]), new Clube(dados[1]), Integer.parseInt(dados[2]), Integer.parseInt(dados[3]), Integer.parseInt(dados[4])));
                 linha = reader.readLine();
             }
-            Toast.makeText(getApplicationContext(), "Arquivo lido", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
@@ -112,8 +118,8 @@ public class JogosActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
-            case R.id.menuJogos:
-                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+            case R.id.menuResultados:
+                startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
                 finish();
                 break;
         }

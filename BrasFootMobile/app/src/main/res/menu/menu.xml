@@ -35,4 +35,10 @@
         android:title="Jogos"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menuResultados"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Resultados"
+        app:showAsAction="never" />
+
     </menu>

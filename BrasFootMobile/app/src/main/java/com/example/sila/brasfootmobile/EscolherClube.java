@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import Model.*;
+import Model.Estadio;
 
 public class EscolherClube extends AppCompatActivity {
     private Button btConfirmar;
@@ -32,7 +33,6 @@ public class EscolherClube extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esolher_clube);
-        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         tvClubes = (TextView) findViewById(R.id.tvClubes);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
         lvClubes  = (Spinner) findViewById(R.id.spinner);
@@ -41,7 +41,7 @@ public class EscolherClube extends AppCompatActivity {
         mostrarDados();
     }
     public void mostrarDados(){
-
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
         String[] nomes= new String[cursor.getCount()];
         int size = 0;
@@ -58,6 +58,7 @@ public class EscolherClube extends AppCompatActivity {
             cursor.moveToNext();
         }
         cursor.close();
+        db.close();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getBaseContext(),
                 android.R.layout.simple_list_item_1,
@@ -70,6 +71,7 @@ public class EscolherClube extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
                 dis = (String) lvClubes.getItemAtPosition(pos);
                 btConfirmar.setClickable(true);
+                db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
                 Cursor cursorJ = db.rawQuery("SELECT jogador.nome as nomej,jogador.habilidade as habilidadej,jogador.motivacao as motivacaoj,jogador.condicionamento as condicionamentoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
                 String txt = "";
                 cursorJ.moveToFirst();
@@ -84,6 +86,7 @@ public class EscolherClube extends AppCompatActivity {
                     cursorJ.moveToNext();
                 }
                 cursorJ.close();
+                db.close();
                 tvJogadores.setText(txt);
             }
             @Override
@@ -102,42 +105,6 @@ public class EscolherClube extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),Time.class);
         finish();
         startActivity(intent);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuInicio:
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-                break;
-            case R.id.menuTime:
-                startActivity(new Intent(getApplicationContext(), Time.class));
-                finish();
-                break;
-            case R.id.menuLoja:
-                startActivity(new Intent(getApplicationContext(), Loja.class));
-                finish();
-                break;
-            case R.id.menuCampeonato:
-                startActivity(new Intent(getApplicationContext(), Campeonato.class));
-                finish();
-                break;
-            case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
-                finish();
-                break;
-            case R.id.menuJogos:
-                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }

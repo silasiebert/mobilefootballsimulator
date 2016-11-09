@@ -22,10 +22,23 @@ public class Clube {
     private Estadio estadio;
     private String nome;
     private int forca;
+    private int pontos =0;
+    private int vitorias=0;
+    private int empates=0;
+    private int derrotas=0;
 
     public Clube(int clubeId, String nome) {
         this.clubeId = clubeId;
         this.nome = nome;
+    }
+
+    public Clube(int clubeId, String nome, int vitorias, int derrotas, int empates, int pontos) {
+        this.clubeId = clubeId;
+        this.nome = nome;
+        this.pontos = pontos;
+        this.vitorias = vitorias;
+        this.empates = empates;
+        this.derrotas = derrotas;
     }
 
     public int getForca(int pos) {
@@ -122,6 +135,38 @@ public class Clube {
 
     public int getClubeId() {
         return clubeId;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
     }
 
     public void setClubeId(int clubeId) {

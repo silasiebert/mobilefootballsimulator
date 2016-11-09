@@ -38,7 +38,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/tvClubes"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:visibility="invisible" />
 
         <TextView
@@ -47,13 +47,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvGols"
             android:textSize="20sp"
-            android:visibility="invisible" />
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvLucro"
             android:visibility="invisible" />
 
         <ScrollView
