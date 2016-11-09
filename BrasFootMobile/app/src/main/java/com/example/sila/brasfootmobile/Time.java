@@ -275,6 +275,17 @@ public class Time extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+                db.close();
+=======
+<<<<<<< HEAD
+=======
+                db.close();
+>>>>>>> master
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 finish();
                 break;
             case R.id.menuLoja:
