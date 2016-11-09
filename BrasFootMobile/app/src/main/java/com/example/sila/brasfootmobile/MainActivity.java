@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private ArrayList<Clube> clubes = new ArrayList<>();
     private String nomeArquivo = "jogos.txt";
+    private Button btContinuar;
 
     public void criarTabelas() {
         db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT,pontos INTEGER,vitorias INTEGER,derrotas INTEGER,empates INTEGER);");
@@ -35,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
-
+        btContinuar = (Button) findViewById(R.id.btContinuar);
+        btContinuar.setEnabled(false);
 
     }
 
     public void novoJogo(View v) {
-
+        btContinuar.setEnabled(true);
         this.deleteDatabase("foot");
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         criarTabelas();

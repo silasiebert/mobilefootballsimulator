@@ -17,5 +17,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/tvResultados"
-        android:textSize="24sp" />
+        android:textSize="35sp" />
 </RelativeLayout>
