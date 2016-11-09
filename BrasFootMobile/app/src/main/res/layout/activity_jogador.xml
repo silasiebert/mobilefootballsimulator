@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
         <TextView
@@ -79,12 +78,32 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvCondicionamento" />
 
+        <TextView
+            android:text="Valor de Venda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvValorVenda" />
+
         <Button
             android:text="Treinamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btTreinar"
             android:background="@color/primary" />
+
+        <Button
+            android:text="Vender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btVender"
+            android:background="@color/primary"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 
