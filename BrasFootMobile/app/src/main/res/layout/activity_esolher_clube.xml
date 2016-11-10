@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sila.brasfootmobile.EscolherClube">
+    tools:context="com.example.sila.brasfootmobile.EscolherClube"
+    android:background="@drawable/campo">
 
     <LinearLayout
         android:orientation="vertical"
@@ -27,18 +28,22 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner" />
+            android:id="@+id/spinner"
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:text="Jogadores:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginTop="20dp" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="209dp"
+            android:background="@color/primary_light"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:text="TextView"
@@ -59,14 +64,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView11"
                 android:textSize="25sp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="20dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvCaixa"
                 android:textSize="25sp"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:layout_marginTop="20dp" />
 
         </LinearLayout>
 

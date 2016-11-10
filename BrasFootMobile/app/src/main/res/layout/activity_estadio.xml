@@ -8,14 +8,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sila.brasfootmobile.Estadio">
+    tools:context="com.example.sila.brasfootmobile.Estadio"
+    android:background="@drawable/campo">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_height="250dp">
+        android:layout_height="200dp"
+        android:background="@color/primary_light">
 
         <EditText
             android:layout_height="wrap_content"
@@ -23,20 +25,22 @@
             android:layout_below="@+id/textView17"
             android:layout_alignParentStart="true"
             android:id="@+id/etValorDigitado"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:layout_marginTop="50dp"
             android:inputType="number" />
 
         <Button
             android:text="Confirmar Compra"
-            android:layout_width="match_parent"
+            android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:id="@+id/btConfirmar"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/primary"
             android:onClick="confirmar"
-            android:layout_marginTop="150dp" />
+            android:layout_marginTop="140dp"
+            android:layout_marginLeft="80dp"
+            android:elevation="12dp" />
 
         <Button
             android:text="Cálcular "
@@ -48,7 +52,7 @@
             android:layout_alignParentEnd="true"
             android:onClick="calcular"
             android:layout_marginTop="50dp"
-            android:layout_marginLeft="250dp" />
+            android:layout_marginLeft="230dp" />
 
         <TextView
             android:text="Digite a quantidade de lugares"
@@ -66,7 +70,7 @@
             android:text="Valor"
             android:layout_below="@+id/etValorDigitado"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="130dp" />
+            android:layout_marginTop="110dp" />
 
         <TextView
             android:layout_width="198dp"
@@ -75,16 +79,18 @@
             android:layout_toEndOf="@+id/tvValor"
             android:layout_marginStart="29dp"
             android:id="@+id/tvValorMostrado"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="110dp"
             android:paddingLeft="15dp" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_height="200dp"
         android:contentDescription="bor"
-        android:focusable="true">
+        android:focusable="true"
+        android:layout_height="200dp"
+        android:background="@color/primary_light"
+        android:layout_marginTop="23dp">
 
         <LinearLayout
             android:orientation="vertical"
