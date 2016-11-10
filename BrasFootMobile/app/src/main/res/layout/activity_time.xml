@@ -129,14 +129,16 @@
             android:layout_height="56dp"
             android:id="@+id/lvDefensores" />
 
-        <Button
-            android:text="@string/salvar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btSalvar"
-            android:onClick="salvarTime"
-            android:background="@color/primary"
-            android:textColor="@color/icons"/>
     </LinearLayout>
+
+    <Button
+        android:text="@string/salvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btSalvar"
+        android:onClick="salvarTime"
+        android:background="@color/primary"
+        android:textColor="@color/icons"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -171,23 +171,25 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btTreinar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary"
-            android:onClick="treinarJogador"
-            android:text="Treinamento" />
-
-        <Button
-            android:id="@+id/btVender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/primary"
-            android:onClick="venderJogador"
-            android:text="Vender" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btTreinar"
+        android:layout_above="@+id/btVender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:onClick="treinarJogador"
+        android:text="Treinamento" />
+
+    <Button
+        android:id="@+id/btVender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/primary"
+        android:layout_alignParentBottom="true"
+        android:onClick="venderJogador"
+        android:text="Vender" />
 
 </RelativeLayout>

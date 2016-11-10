@@ -67,7 +67,7 @@ public class Time extends AppCompatActivity {
 
         c.close();
         lvDefensores.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_multiple_choice,
+                R.layout.custom_item_listview_layout,
                 android.R.id.text1,
                 defensores));
         lvDefensores.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -88,7 +88,7 @@ public class Time extends AppCompatActivity {
         c.close();
 
         lvAtacantes.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_multiple_choice,
+                R.layout.custom_item_listview_layout,
                 android.R.id.text1,
                 atacantes));
         lvAtacantes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -107,7 +107,7 @@ public class Time extends AppCompatActivity {
         }
         c.close();
         lvGoleiros.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_multiple_choice,
+                R.layout.custom_item_listview_layout,
                 android.R.id.text1,
                 goleiros));
         lvGoleiros.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -126,7 +126,7 @@ public class Time extends AppCompatActivity {
         }
         c.close();
         lvMeioCampos.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_multiple_choice,
+                R.layout.custom_item_listview_layout,
                 android.R.id.text1,
                 meiocampos));
         lvMeioCampos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

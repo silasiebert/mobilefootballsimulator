@@ -20,17 +20,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
-        <Button
-            android:text="Jogar partida"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/btJogar"
-            android:onClick="rodarPartida"
-            android:background="@color/primary"
-            android:textColor="@color/icons" />
-
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
@@ -83,5 +72,16 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <Button
+        android:text="Jogar partida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btJogar"
+        android:onClick="rodarPartida"
+        android:background="@color/primary"
+        android:textColor="@color/icons" />
 
 </RelativeLayout>
