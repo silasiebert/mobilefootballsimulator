@@ -38,11 +38,6 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerJogador"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,12 +51,12 @@
                 android:text="Nome: "
                 android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/tvNome"
+            <Spinner
+                android:id="@+id/spinnerJogador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_weight="2" />
+                android:layout_weight="1" />
+
         </LinearLayout>
 
         <LinearLayout

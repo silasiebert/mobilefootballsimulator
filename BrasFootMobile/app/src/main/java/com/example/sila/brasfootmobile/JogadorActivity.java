@@ -22,18 +22,18 @@ import Model.Jogador;
 
 public class JogadorActivity extends AppCompatActivity {
     private Spinner spinner;
-    private TextView tvNome, tvPos, tvHab, tvCon, tvMot, tvValor,tvCaixa;
+    private TextView tvPos, tvHab, tvCon, tvMot, tvValor, tvCaixa;
     private ArrayList<Jogador> jogadors;
     private SQLiteDatabase db;
     private int pos;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private AlertDialog.Builder dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogador);
         spinner = (Spinner) findViewById(R.id.spinnerJogador);
-        tvNome = (TextView) findViewById(R.id.tvNome);
         tvPos = (TextView) findViewById(R.id.tvPosicao);
         tvHab = (TextView) findViewById(R.id.tvHabilidade);
         tvMot = (TextView) findViewById(R.id.tvMotivacao);
@@ -51,14 +51,14 @@ public class JogadorActivity extends AppCompatActivity {
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            jogadors.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0,c.getDouble(c.getColumnIndex("valor"))));
+            jogadors.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0, c.getDouble(c.getColumnIndex("valor"))));
             tvCaixa.setText(String.valueOf(c.getDouble(c.getColumnIndex("caixa"))));
 
             c.moveToNext();
         }
 
         c.close();
-        ArrayAdapter arrayAdapter =new ArrayAdapter<>(getBaseContext(),
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getBaseContext(),
                 R.layout.spinner_layout,
                 jogadors);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout);
@@ -72,8 +72,10 @@ public class JogadorActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
-                Jogador jogador = jogadors.get(pos);
-                tvNome.setText(jogador.getNome());
+                Jogador jogador = null;
+                if (!jogadors.isEmpty()) {
+                    jogador = jogadors.get(pos);
+                }
                 tvPos.setText(String.valueOf(jogador.getPosicao()));
                 tvMot.setText(String.valueOf(jogador.getMotivacao()));
                 tvValor.setText(String.valueOf(jogador.getValor()));
@@ -88,7 +90,8 @@ public class JogadorActivity extends AppCompatActivity {
 
         });
     }
-    public void treinarJogador(View v){
+
+    public void treinarJogador(View v) {
 
         dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Treinamento");
@@ -97,20 +100,20 @@ public class JogadorActivity extends AppCompatActivity {
         dialog.setNegativeButton("Treinar habilidade", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Jogador j= null;
-                if(!jogadors.isEmpty()) {
-                    j= jogadors.get(pos);
+                Jogador j = null;
+                if (!jogadors.isEmpty()) {
+                    j = jogadors.get(pos);
                 }
                 if (j != null) {
                     db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
                     db.execSQL("UPDATE jogador SET habilidade = habilidade +5 WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
-                    db.execSQL("UPDATE clube SET caixa =caixa-10000 WHERE nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'");
+                    db.execSQL("UPDATE clube SET caixa =caixa-10000 WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'");
 
                     db.close();
                     Toast.makeText(getApplicationContext(), "Jogador " + j.getNome() + " treinado com sucesso!", Toast.LENGTH_SHORT).show();
                     carregarJogadores();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Nenhum jogador disponivel!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Nenhum jogador disponivel!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,13 +124,13 @@ public class JogadorActivity extends AppCompatActivity {
                 if (j != null) {
                     db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
                     db.execSQL("UPDATE jogador SET condicionamento = condicionamento +7 WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
-                    db.execSQL("UPDATE clube SET caixa =caixa-15000 WHERE nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'");
+                    db.execSQL("UPDATE clube SET caixa =caixa-15000 WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'");
 
                     db.close();
                     Toast.makeText(getApplicationContext(), "Jogador " + j.getNome() + " treinado com sucesso!", Toast.LENGTH_SHORT).show();
                     carregarJogadores();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Nenhum jogador disponivel!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Nenhum jogador disponivel!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -135,21 +138,22 @@ public class JogadorActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
     public void venderJogador(View v) {
-        Jogador j= null;
-        if(!jogadors.isEmpty()) {
-            j= jogadors.get(pos);
+        Jogador j = null;
+        if (!jogadors.isEmpty()) {
+            j = jogadors.get(pos);
         }
         if (j != null) {
             db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
             db.execSQL("DELETE FROM jogador WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
-            db.execSQL("UPDATE clube SET caixa ="+j.getValor()+"+caixa WHERE nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'");
+            db.execSQL("UPDATE clube SET caixa =" + j.getValor() + "+caixa WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'");
 
             db.close();
             Toast.makeText(this, "Jogador " + j.getNome() + " vendido com sucesso!", Toast.LENGTH_SHORT).show();
             carregarJogadores();
-        }else{
-            Toast.makeText(this,"Todos os jogadores foram vendidos!",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Todos os jogadores foram vendidos!", Toast.LENGTH_SHORT).show();
         }
     }
 

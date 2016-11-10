@@ -106,7 +106,7 @@ public class Loja extends AppCompatActivity {
     public void mostrarJogadores() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getBaseContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.custom_listview_singleitem1,
                 android.R.id.text1,
                 nomes
         );

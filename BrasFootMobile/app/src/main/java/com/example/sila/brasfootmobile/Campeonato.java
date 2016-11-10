@@ -114,7 +114,7 @@ public class Campeonato extends AppCompatActivity {
 
                     db.execSQL("UPDATE clube SET vitorias = '"+visitante.getVitorias()+"' ,derrotas = '"+visitante.getDerrotas()+"' ,empates = '"+visitante.getEmpates()+"',pontos = '"+visitante.getPontos()+"' WHERE clubeId = '"+visitante.getClubeId()+"'");
                     db.execSQL("UPDATE clube SET vitorias = '"+local.getVitorias()+"' ,derrotas = '"+local.getDerrotas()+"' ,empates = '"+local.getEmpates()+"',pontos = '"+local.getPontos()+"' WHERE clubeId = '"+local.getClubeId()+"'");
-                    db.execSQL("UPDATE clube SET caixa = '"+j.getLucro()+"' WHERE clubeId = '"+local.getClubeId()+"'");
+                    db.execSQL("UPDATE clube SET caixa = caixa+"+j.getLucro()+" WHERE clubeId = '"+local.getClubeId()+"'");
 
                     if (local == meu || visitante == meu) {
                         tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());

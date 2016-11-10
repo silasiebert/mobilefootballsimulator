@@ -42,7 +42,7 @@ public class JogosActivity extends AppCompatActivity {
     public void carregarJogos() {
         leJogo();
         lvJogos.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.custom_listview_singleitem1,
                 android.R.id.text1,
                 jogos));
         selecionarJogo();
