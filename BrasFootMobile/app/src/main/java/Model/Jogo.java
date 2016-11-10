@@ -159,6 +159,9 @@ public class Jogo {
         }
 
         andamento = jogadas;
+        lucro = local.getEstadio().getPrecoEntrada()*local.getEstadio().getCapacidade();
+        local.setCaixa(local.getCaixa()+lucro);
+
     }
 
     public String lesao() {

@@ -130,15 +130,14 @@ public class MainActivity extends AppCompatActivity {
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         db.beginTransaction();
 
-        SQLiteStatement st = db.compileStatement("INSERT INTO estadio (estadioId,capacidade,nome, precoEntrada,precoExpansao,clubeId)VALUES(?,?,?,?,?,?)");
+        SQLiteStatement st = db.compileStatement("INSERT INTO estadio (capacidade,nome, precoEntrada,precoExpansao,clubeId)VALUES(?,?,?,?,?)");
         for (Clube c : clubes) {
 
-            st.bindLong(1, e.getEstadioid());
-            st.bindLong(2,e.getCapacidade());
-            st.bindString(3,e.getNome());
-            st.bindDouble(4,e.getPrecoEntrada());
-            st.bindDouble(5,e.getPrecoExpansao());
-            st.bindLong(6,c.getClubeId());
+            st.bindLong(1,e.getCapacidade());
+            st.bindString(2,e.getNome());
+            st.bindDouble(3,e.getPrecoEntrada());
+            st.bindDouble(4,e.getPrecoExpansao());
+            st.bindLong(5,c.getClubeId());
 
 
             long entryID = st.executeInsert();

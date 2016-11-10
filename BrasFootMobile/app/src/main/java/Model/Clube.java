@@ -40,7 +40,15 @@ public class Clube {
         this.empates = empates;
         this.derrotas = derrotas;
     }
-
+    public Clube(int clubeId, String nome, int vitorias, int derrotas, int empates, int pontos,Estadio e) {
+        this.clubeId = clubeId;
+        this.nome = nome;
+        this.pontos = pontos;
+        this.vitorias = vitorias;
+        this.empates = empates;
+        this.derrotas = derrotas;
+        this.estadio =e;
+    }
     public int getForca(int pos) {
         forca=0;
         if (pos==Jogador.ATACANTE){

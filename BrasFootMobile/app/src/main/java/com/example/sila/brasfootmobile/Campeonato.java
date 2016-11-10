@@ -23,7 +23,7 @@ import Model.Jogador;
 import Model.Jogo;
 
 public class Campeonato extends AppCompatActivity {
-    private TextView tvClubes, tvAndamento, tvGols;
+    private TextView tvClubes, tvAndamento, tvGols,tvLucro;
     private SQLiteDatabase db;
     private Button btJogar;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
@@ -37,26 +37,35 @@ public class Campeonato extends AppCompatActivity {
         tvClubes = (TextView) findViewById(R.id.tvClubes);
         tvGols = (TextView) findViewById(R.id.tvGols);
         btJogar = (Button) findViewById(R.id.btJogar);
+        tvLucro = (TextView) findViewById(R.id.tvLucro);
     }
 
     public void rodarPartida(View v) {
         tvGols.setVisibility(View.VISIBLE);
         tvClubes.setVisibility(View.VISIBLE);
         tvAndamento.setVisibility(View.VISIBLE);
+        tvLucro.setVisibility(View.VISIBLE);
+
         //recuperar os clubes do banco
         ArrayList<Clube> clubes = new ArrayList<>();
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
-        int indiceColunaId = cursor.getColumnIndex("clubeId");
-        int indiceColunaNome = cursor.getColumnIndex("nome");
+        Cursor cursor = db.rawQuery("SELECT clube.clubeId as idC,clube.nome as nomec,capacidade ,estadio.nome as nomee,precoEntrada,precoExpansao,vitorias,derrotas,empates,pontos FROM clube INNER JOIN estadio ON clube.clubeId = estadio.clubeId", null);
+        int indiceColunaId = cursor.getColumnIndex("idC");
+        int indiceColunaNome = cursor.getColumnIndex("nomec");
+
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
+            Model.Estadio e= new Model.Estadio(cursor.getInt(cursor.getColumnIndex("capacidade")),cursor.getString(cursor.getColumnIndex("nomee")), cursor.getDouble(cursor.getColumnIndex("precoEntrada")),cursor.getDouble(cursor.getColumnIndex("precoExpansao")),cursor.getInt(cursor.getColumnIndex("idC")));
             clubes.add(new Clube(cursor.getInt(indiceColunaId), cursor.getString(indiceColunaNome),
-                    cursor.getInt(cursor.getColumnIndex("vitorias")),cursor.getInt(cursor.getColumnIndex("derrotas")),cursor.getInt(cursor.getColumnIndex("empates")),cursor.getInt(cursor.getColumnIndex("pontos"))));
+                    cursor.getInt(cursor.getColumnIndex("vitorias")),cursor.getInt(cursor.getColumnIndex("derrotas")),cursor.getInt(cursor.getColumnIndex("empates")),cursor.getInt(cursor.getColumnIndex("pontos")),e));
+
+
             cursor.moveToNext();
         }
         cursor.close();
         db.close();
+
+
         ArrayList<Jogador> jogadores;
         Cursor cur = null;
         for (Clube c : clubes) {
@@ -71,7 +80,7 @@ public class Campeonato extends AppCompatActivity {
             int indiceColunaJogando = cur.getColumnIndex("jogando");
             cur.moveToFirst();
             while (!cur.isAfterLast()) {
-                jogadores.add(new Jogador(cur.getInt(indiceColunaHabilidade), cur.getString(indiceColunaNome), cur.getInt(indiceColunaPos), cur.getInt(indiceColunaCond), cur.getInt(indiceColunaMot), cur.getInt(indiceColunaJogando) != 0));
+                jogadores.add(new Jogador(cur.getInt(indiceColunaHabilidade), cur.getString(indiceNomeJogador), cur.getInt(indiceColunaPos), cur.getInt(indiceColunaCond), cur.getInt(indiceColunaMot), cur.getInt(indiceColunaJogando) != 0));
                 cur.moveToNext();
             }
             c.setJogadores(jogadores);
@@ -107,10 +116,13 @@ public class Campeonato extends AppCompatActivity {
 
                     db.execSQL("UPDATE clube SET vitorias = '"+visitante.getVitorias()+"' ,derrotas = '"+visitante.getDerrotas()+"' ,empates = '"+visitante.getEmpates()+"',pontos = '"+visitante.getPontos()+"' WHERE clubeId = '"+visitante.getClubeId()+"'");
                     db.execSQL("UPDATE clube SET vitorias = '"+local.getVitorias()+"' ,derrotas = '"+local.getDerrotas()+"' ,empates = '"+local.getEmpates()+"',pontos = '"+local.getPontos()+"' WHERE clubeId = '"+local.getClubeId()+"'");
+                    db.execSQL("UPDATE clube SET caixa = '"+j.getLucro()+"' WHERE clubeId = '"+local.getClubeId()+"'");
+
                     if (local == meu || visitante == meu) {
                         tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());
                         tvAndamento.setText(j.getAndamento());
                         tvGols.setText(j.getGolsLocal() + "x" + j.getGolsVisitante());
+                        tvLucro.setText(String.valueOf(j.getLucro()));
                     }
                     salvarJogo(j);
                 }
