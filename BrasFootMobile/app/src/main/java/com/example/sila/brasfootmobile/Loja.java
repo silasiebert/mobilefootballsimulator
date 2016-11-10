@@ -57,17 +57,17 @@ public class Loja extends AppCompatActivity {
 
         //Gerador de 20 jogadores aleatorios para cada clube
         // int numeroAletorio =(int)(Math.random()*30)+20;
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Saraiva", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Leonardo da Vinci", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Caleu", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Neymar", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Gandhi", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Galileu", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Anitta", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Pelé", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Bartolomeu", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Picasso", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Simone e Simara", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
+        jogadores.add(new Jogador((int) (Math.random() * 33) + 21, "Saraiva", Jogador.GOLEIRO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 33) + 26, false, Math.round(Math.random() * 100000 + 50000)));
+        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Leonardo da Vinci", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 34) + 26, false, Math.round(Math.random() * 100000 + 100000)));
+        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Caleu", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 32) + 26, false, Math.round(Math.random() * 100000 + 100000)));
+        jogadores.add(new Jogador((int) (Math.random() * 35) + 25, "Neymar", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 37) + 25, false, Math.round(Math.random() * 100000 + 200000)));
+        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Gandhi", Jogador.ATACANTE, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, Math.round(Math.random() * 100000 + 100000)));
+        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Galileu", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, Math.round(Math.random() * 100000 + 50000)));
+        jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Anitta", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 36) + 24, false, Math.round(Math.random() * 100000 + 200000)));
+        jogadores.add(new Jogador((int) (Math.random() * 33) + 27, "Pelé", Jogador.DEFENSOR, (int) (Math.random() * 30) + 20, (int) (Math.random() * 40) + 30, false, Math.round(Math.random() * 100000 + 300000)));
+        jogadores.add(new Jogador((int) (Math.random() * 34) + 21, "Bartolomeu", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, Math.round(Math.random() * 100000 + 100000)));
+        jogadores.add(new Jogador((int) (Math.random() * 35) + 21, "Picasso", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, Math.round(Math.random() * 100000 + 100000)));
+        jogadores.add(new Jogador((int) (Math.random() * 33) + 22, "Simone e Simara", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 33) + 23, false, Math.round(Math.random() * 100000 + 50000)));
         int size = 0;
 
 
