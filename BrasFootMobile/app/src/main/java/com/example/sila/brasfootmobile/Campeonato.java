@@ -18,10 +18,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Model.*;
+import Model.Clube;
+import Model.Jogador;
+import Model.Jogo;
 
 public class Campeonato extends AppCompatActivity {
-    private TextView tvClubes, tvAndamento, tvGols,tvLucro;
+    private TextView tvClubes, tvAndamento, tvGols, tvLucro;
     private SQLiteDatabase db;
     private Button btJogar;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
@@ -53,9 +55,9 @@ public class Campeonato extends AppCompatActivity {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Model.Estadio e= new Model.Estadio(cursor.getInt(cursor.getColumnIndex("capacidade")),cursor.getString(cursor.getColumnIndex("nomee")), cursor.getDouble(cursor.getColumnIndex("precoEntrada")),cursor.getDouble(cursor.getColumnIndex("precoExpansao")),cursor.getInt(cursor.getColumnIndex("idC")));
+            Model.Estadio e = new Model.Estadio(cursor.getInt(cursor.getColumnIndex("capacidade")), cursor.getString(cursor.getColumnIndex("nomee")), cursor.getDouble(cursor.getColumnIndex("precoEntrada")), cursor.getDouble(cursor.getColumnIndex("precoExpansao")), cursor.getInt(cursor.getColumnIndex("idC")));
             clubes.add(new Clube(cursor.getInt(indiceColunaId), cursor.getString(indiceColunaNome),
-                    cursor.getInt(cursor.getColumnIndex("vitorias")),cursor.getInt(cursor.getColumnIndex("derrotas")),cursor.getInt(cursor.getColumnIndex("empates")),cursor.getInt(cursor.getColumnIndex("pontos")),e));
+                    cursor.getInt(cursor.getColumnIndex("vitorias")), cursor.getInt(cursor.getColumnIndex("derrotas")), cursor.getInt(cursor.getColumnIndex("empates")), cursor.getInt(cursor.getColumnIndex("pontos")), e));
 
 
             cursor.moveToNext();
@@ -97,34 +99,85 @@ public class Campeonato extends AppCompatActivity {
 
 
         Jogo j = null;
-        Clube local = null;
+        //Clube local = null;
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor curs = db.rawQuery("SELECT * FROM clube", null);
-
-        if (fase > curs.getCount() - 1) {
-            startActivity(new Intent(getApplicationContext(),ResultadosActivity.class));
+        int quantidadeClubes = curs.getCount();
+        curs.close();
+        db.close();
+        if (fase > quantidadeClubes - 1) {
+            startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
             finish();
-        }else{
-           local = clubes.get(fase);
-            for (Clube visitante : clubes) {
-                if (local != visitante) {
-
-                    j = new Jogo(visitante, local);
-                    j.resultado();
-
-                    db.execSQL("UPDATE clube SET vitorias = '"+visitante.getVitorias()+"' ,derrotas = '"+visitante.getDerrotas()+"' ,empates = '"+visitante.getEmpates()+"',pontos = '"+visitante.getPontos()+"' WHERE clubeId = '"+visitante.getClubeId()+"'");
-                    db.execSQL("UPDATE clube SET vitorias = '"+local.getVitorias()+"' ,derrotas = '"+local.getDerrotas()+"' ,empates = '"+local.getEmpates()+"',pontos = '"+local.getPontos()+"' WHERE clubeId = '"+local.getClubeId()+"'");
-                    db.execSQL("UPDATE clube SET caixa = caixa+"+j.getLucro()+" WHERE clubeId = '"+local.getClubeId()+"'");
-
-                    if (local == meu || visitante == meu) {
-                        tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());
-                        tvAndamento.setText(j.getAndamento());
-                        tvGols.setText(j.getGolsLocal() + "x" + j.getGolsVisitante());
-                        tvLucro.setText(String.valueOf(j.getLucro()));
-                    }
-                    salvarJogo(j);
-                }
+        } else {
+            //Rotar clubes
+            for (int i = 0; i < fase; i++) {
+                clubes.add(1, clubes.get(clubes.size() - 1));
+                clubes.remove(clubes.size() - 1);
             }
+            int mid = quantidadeClubes / 2;
+            ArrayList<Clube>l1=new ArrayList<>();
+            for(int i=0;i<mid;i++) {
+                l1.add(clubes.get(i));
+            }
+
+
+            ArrayList<Clube>l2=new ArrayList<>();
+            for(int i=clubes.size()-1;i>=mid;i--) {
+                l2.add(clubes.get(i));
+            }
+
+            for(int tId = 0;tId<l1.size();tId++) {
+                Clube local;
+                Clube visitante;
+                // Switch sides after each round
+                if (fase+1 %2 == 1) {
+                local = l1.get(tId);
+                visitante = l2.get(tId);
+                } else {
+                local = l2.get(tId);
+                visitante = l1.get(tId);
+                 }
+                j = new Jogo(visitante, local);
+                j.resultado();
+                db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
+                db.execSQL("UPDATE clube SET vitorias = '" + visitante.getVitorias() + "' ,derrotas = '" + visitante.getDerrotas() + "' ,empates = '" + visitante.getEmpates() + "',pontos = '" + visitante.getPontos() + "' WHERE clubeId = '" + visitante.getClubeId() + "'");
+                db.execSQL("UPDATE clube SET vitorias = '" + local.getVitorias() + "' ,derrotas = '" + local.getDerrotas() + "' ,empates = '" + local.getEmpates() + "',pontos = '" + local.getPontos() + "' WHERE clubeId = '" + local.getClubeId() + "'");
+                db.execSQL("UPDATE clube SET caixa = caixa+" + j.getLucro() / 2 + " WHERE clubeId = '" + local.getClubeId() + "'");
+                db.execSQL("UPDATE clube SET caixa = caixa+" + j.getLucro() / 2 + " WHERE clubeId = '" + visitante.getClubeId() + "'");
+                db.close();
+                salvarJogo(j);
+                if (local == meu || visitante == meu) {
+                    tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());
+                    tvAndamento.setText(j.getAndamento());
+                    tvGols.setText(j.getGolsLocal() + "x" + j.getGolsVisitante());
+                    tvLucro.setText(String.valueOf(j.getLucro()));
+                }
+
+               }
+
+
+
+//            local = clubes.get(fase);
+//            for (Clube visitante : clubes) {
+//                if (local != visitante) {
+//
+//                    j = new Jogo(visitante, local);
+//                    j.resultado();
+//
+//                    db.execSQL("UPDATE clube SET vitorias = '" + visitante.getVitorias() + "' ,derrotas = '" + visitante.getDerrotas() + "' ,empates = '" + visitante.getEmpates() + "',pontos = '" + visitante.getPontos() + "' WHERE clubeId = '" + visitante.getClubeId() + "'");
+//                    db.execSQL("UPDATE clube SET vitorias = '" + local.getVitorias() + "' ,derrotas = '" + local.getDerrotas() + "' ,empates = '" + local.getEmpates() + "',pontos = '" + local.getPontos() + "' WHERE clubeId = '" + local.getClubeId() + "'");
+//                    db.execSQL("UPDATE clube SET caixa = caixa+" + j.getLucro() / 2 + " WHERE clubeId = '" + local.getClubeId() + "'");
+//                    db.execSQL("UPDATE clube SET caixa = caixa+" + j.getLucro() / 2 + " WHERE clubeId = '" + visitante.getClubeId() + "'");
+//
+//                    if (local == meu || visitante == meu) {
+//                        tvClubes.setText(j.getVisitante().getNome() + "x" + j.getLocal().getNome());
+//                        tvAndamento.setText(j.getAndamento());
+//                        tvGols.setText(j.getGolsLocal() + "x" + j.getGolsVisitante());
+//                        tvLucro.setText(String.valueOf(j.getLucro()));
+//                    }
+//                    salvarJogo(j);
+//                }
+//            }
             fase++;
 
 
@@ -134,24 +187,22 @@ public class Campeonato extends AppCompatActivity {
         db.close();
 
 
-
     }
 
     public void salvarJogo(Jogo j) {
 
-        String mensagem = j.getVisitante().getNome() + ";" + j.getLocal().getNome() + ";" + j.getGolsVisitante() + ";" + j.getGolsLocal() + ";" + j.getVencedor()+"\n";
+        String mensagem = j.getVisitante().getNome() + ";" + j.getLocal().getNome() + ";" + j.getGolsVisitante() + ";" + j.getGolsLocal() + ";" + j.getVencedor() + "\n";
         try {
             FileOutputStream fos = openFileOutput(nomeArquivo, MODE_APPEND);
             fos.write(mensagem.getBytes());
             fos.close();
 
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
-
 
 
     @Override

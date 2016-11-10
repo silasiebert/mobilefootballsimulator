@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         Clube saoJose = new Clube(20, "São José");
         Clube bocaJunior = new Clube(21, "Boca Júnior");
         Clube atleticoIbirama = new Clube(22, "Atlético de Ibirama");
-        Clube interDeLages = new Clube(23, "Inter de Lages");
+        //Clube interDeLages = new Clube(23, "Inter de Lages");
 
         ;
 
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         clubes.add(oeste);
         clubes.add(saoJose);
         clubes.add(bocaJunior);
-        clubes.add(interDeLages);
+        //clubes.add(interDeLages);
         ArrayList<Jogador> jogadores;
         for (Clube c : clubes) {
             c.setCaixa(caixaInicial);

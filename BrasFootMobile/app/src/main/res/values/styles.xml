@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -12,6 +12,19 @@
         <item name="android:icon">@color/icons</item>
         <item name="android:colorBackground">@color/corDeFundo</item>
         <item name="android:typeface">sans</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+
+    </style>
+
+
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="titleTextStyle">@style/MyTitleTextStyle</item>
+        <item name="android:actionMenuTextAppearance">@color/primary</item>
+    </style>
+
+    <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/primary_text</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
