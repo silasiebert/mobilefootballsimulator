@@ -69,12 +69,12 @@ public class EscolherClube extends AppCompatActivity {
         cursor.close();
         db.close();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getBaseContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
+                getBaseContext(),R.layout.spinner_layout,
                 nomes
         );
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout);
         lvClubes.setAdapter(adapter);
+
         lvClubes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

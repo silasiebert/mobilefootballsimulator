@@ -58,10 +58,11 @@ public class JogadorActivity extends AppCompatActivity {
         }
 
         c.close();
-        spinner.setAdapter(new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                jogadors));
+        ArrayAdapter arrayAdapter =new ArrayAdapter<>(getBaseContext(),
+                R.layout.spinner_layout,
+                jogadors);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout);
+        spinner.setAdapter(arrayAdapter);
         selecionarJogador();
 
     }
@@ -96,7 +97,10 @@ public class JogadorActivity extends AppCompatActivity {
         dialog.setNegativeButton("Treinar habilidade", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Jogador j = jogadors.get(pos);
+                Jogador j= null;
+                if(!jogadors.isEmpty()) {
+                    j= jogadors.get(pos);
+                }
                 if (j != null) {
                     db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
                     db.execSQL("UPDATE jogador SET habilidade = habilidade +5 WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
@@ -132,7 +136,10 @@ public class JogadorActivity extends AppCompatActivity {
 
     }
     public void venderJogador(View v) {
-        Jogador j = jogadors.get(pos);
+        Jogador j= null;
+        if(!jogadors.isEmpty()) {
+            j= jogadors.get(pos);
+        }
         if (j != null) {
             db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
             db.execSQL("DELETE FROM jogador WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
