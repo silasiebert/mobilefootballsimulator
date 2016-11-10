@@ -28,7 +28,8 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/btJogar"
             android:onClick="rodarPartida"
-            android:background="@color/primary" />
+            android:background="@color/primary"
+            android:textColor="@color/icons" />
 
         <TextView
             android:text="TextView"

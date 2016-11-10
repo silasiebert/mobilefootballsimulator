@@ -69,7 +69,8 @@
             android:id="@+id/btConfirmar"
             android:clickable="false"
             android:onClick="escolher"
-            android:background="@color/primary" />
+            android:background="@color/primary"
+            android:textColor="@color/icons"/>
 
     </LinearLayout>
 
