@@ -184,6 +184,10 @@ public class Campeonato extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
                 finish();
                 break;
+            case R.id.menuJogador:
+                startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
+                finish();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
