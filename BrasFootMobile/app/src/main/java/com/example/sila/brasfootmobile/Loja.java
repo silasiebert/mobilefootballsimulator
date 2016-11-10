@@ -80,7 +80,7 @@ public class Loja extends AppCompatActivity {
                 posicao = "MEIO CAMPO";
 
             } else if(pos==3){
-                posicao = "ATACAQUE";
+                posicao = "ATAQUE";
 
             } else if(pos==4){
                 posicao = "GOL";
@@ -106,7 +106,7 @@ public class Loja extends AppCompatActivity {
     public void mostrarJogadores() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getBaseContext(),
-                R.layout.custom_listview_singleitem1,
+                R.layout.custom_listview_singleitem1_loja,
                 android.R.id.text1,
                 nomes
         );
