@@ -38,13 +38,13 @@ public class Loja extends AppCompatActivity {
     public String nome = "";
     private SQLiteDatabase db;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
+    private String posicao="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loja);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
-        btComprar = (Button) findViewById(R.id.btComprar);
         listView = (ListView) findViewById(R.id.listView);
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
 
@@ -68,12 +68,29 @@ public class Loja extends AppCompatActivity {
         jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Bartolomeu", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
         jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Picasso", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
         jogadores.add(new Jogador((int) (Math.random() * 30) + 20, "Simone e Simara", Jogador.MEIOCAMPO, (int) (Math.random() * 30) + 20, (int) (Math.random() * 30) + 20, false, 100000));
-
         int size = 0;
 
-        for (Jogador j : jogadores) {
 
-            nomes[size] = j.getNome() + " - " + j.getValor();
+        for (Jogador j : jogadores) {
+            int pos = j.getPosicao();
+            if(pos==1){
+                posicao= "DEFESA";
+            }
+            else if(pos==2){
+                posicao = "MEIO CAMPO";
+
+            } else if(pos==3){
+                posicao = "ATACAQUE";
+
+            } else if(pos==4){
+                posicao = "GOL";
+
+            }else{
+
+            }
+
+
+            nomes[size] = j.getNome() + " - " + j.getValor() + " - " + posicao;
 
             size++;
         }
@@ -100,7 +117,7 @@ public class Loja extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dis = (String) listView.getItemAtPosition(position);
-               confirmar(dis);
+                confirmar(dis);
             }
 
         });
@@ -108,9 +125,9 @@ public class Loja extends AppCompatActivity {
 
     public void confirmar(String dis) {
         nome = dis.substring(0, dis.indexOf("-")-1);
-       String preco = dis.substring(dis.indexOf("-")+2,dis.length());
+        String preco = dis.substring(dis.indexOf("-")+2,dis.lastIndexOf(" ")-2);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra para o jogador " + nome + " por " +preco + "?");
+        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra para o jogador " + nome + " - " + posicao +"? Preço: R$ " +preco + "?");
         alertDialogBuilder.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
 
@@ -136,7 +153,7 @@ public class Loja extends AppCompatActivity {
                                 else{
                                     Toast.makeText(getApplicationContext(), j.getValor()+ "Saldo insuficiente. Valor em Caixa: " + novoCaixa, Toast.LENGTH_SHORT).show();
                                 }
-                                }
+                            }
                         }
 
 
@@ -183,6 +200,19 @@ public class Loja extends AppCompatActivity {
                 break;
             case R.id.menuEstadio:
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
+                finish();
+                break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+                finish();
+                break;
+            case R.id.menuResultados:
+                startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
+                finish();
+                break;
+
+            case R.id.menuJogador:
+                startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
                 finish();
                 break;
         }
