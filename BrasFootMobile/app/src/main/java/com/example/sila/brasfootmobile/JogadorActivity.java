@@ -10,9 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,10 +20,12 @@ import Model.Jogador;
 
 public class JogadorActivity extends AppCompatActivity {
     private Spinner spinner;
-    private TextView tvNome,tvPos,tvHab,tvCon,tvMot,tvValor;
-    private ArrayList<Jogador>jogadors;
+    private TextView tvNome, tvPos, tvHab, tvCon, tvMot, tvValor,tvCaixa;
+    private ArrayList<Jogador> jogadors;
     private SQLiteDatabase db;
+    private int pos;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,17 +37,21 @@ public class JogadorActivity extends AppCompatActivity {
         tvMot = (TextView) findViewById(R.id.tvMotivacao);
         tvValor = (TextView) findViewById(R.id.tvValorVenda);
         tvCon = (TextView) findViewById(R.id.tvCondicionamento);
+        tvCaixa = (TextView) findViewById(R.id.tvCaixaClube);
         carregarJogadores();
     }
-    public void carregarJogadores(){
+
+    public void carregarJogadores() {
 
         jogadors = new ArrayList<>();
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        Cursor c = db.rawQuery("SELECT jogador.habilidade as habilidadej,jogador.nome as nomej,jogador.posicao as posicaoj,jogador.condicionamento as condj,jogador.motivacao as motj,jogador.jogando as jogandoj,valor,caixa FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            jogadors.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0));
+            jogadors.add(new Jogador(c.getInt(c.getColumnIndex("habilidadej")), c.getString(c.getColumnIndex("nomej")), c.getInt(c.getColumnIndex("posicaoj")), c.getInt(c.getColumnIndex("condj")), c.getInt(c.getColumnIndex("motj")), c.getInt(c.getColumnIndex("jogandoj")) != 0,c.getDouble(c.getColumnIndex("valor"))));
+            tvCaixa.setText(String.valueOf(c.getDouble(c.getColumnIndex("caixa"))));
+
             c.moveToNext();
         }
 
@@ -57,11 +63,13 @@ public class JogadorActivity extends AppCompatActivity {
         selecionarJogador();
 
     }
-    private void selecionarJogador(){
+
+    private void selecionarJogador() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Jogador jogador = jogadors.get(position);
+                pos = position;
+                Jogador jogador = jogadors.get(pos);
                 tvNome.setText(jogador.getNome());
                 tvPos.setText(String.valueOf(jogador.getPosicao()));
                 tvMot.setText(String.valueOf(jogador.getMotivacao()));
@@ -77,6 +85,22 @@ public class JogadorActivity extends AppCompatActivity {
 
         });
     }
+
+    public void venderJogador(View v) {
+        Jogador j = jogadors.get(pos);
+        if (j != null) {
+            db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
+            db.execSQL("DELETE FROM jogador WHERE nome = '" + j.getNome() + "' AND clubeId = (SELECT clubeId from clube WHERE nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "');");
+            db.execSQL("UPDATE clube SET caixa ="+j.getValor()+"+caixa WHERE nome = '"+getSharedPreferences(ARQUIVO_PREFERENCIAS,0).getString("clube","")+"'");
+
+            db.close();
+            Toast.makeText(this, "Jogador " + j.getNome() + " vendido com sucesso!", Toast.LENGTH_SHORT).show();
+            carregarJogadores();
+        }else{
+            Toast.makeText(this,"Todos os jogadores foram vendidos!",Toast.LENGTH_SHORT);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -103,7 +127,20 @@ public class JogadorActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Model.Estadio.class));
+                startActivity(new Intent(getApplicationContext(), Estadio.class));
+                finish();
+                break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+                finish();
+                break;
+            case R.id.menuResultados:
+                startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
+                finish();
+                break;
+
+            case R.id.menuJogador:
+                startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
                 finish();
                 break;
         }

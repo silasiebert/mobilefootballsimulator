@@ -293,6 +293,10 @@ public class Time extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), JogosActivity.class));
                 finish();
                 break;
+            case R.id.menuJogador:
+                startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

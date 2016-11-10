@@ -26,6 +26,7 @@ public class Jogador {
         this.motivacao = motivacao;
         this.jogando = j;
     }
+
     public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao,boolean j,double v) {
         this.habilidade = habilidade;
         this.nome = nome;

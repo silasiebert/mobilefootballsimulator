@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
         btContinuar = (Button) findViewById(R.id.btContinuar);
-        btContinuar.setEnabled(false);
+        if(!getSharedPreferences(nomeArquivo,0).contains("clube"))
+            btContinuar.setEnabled(true);
+
 
     }
 
     public void novoJogo(View v) {
-        btContinuar.setEnabled(true);
         this.deleteDatabase("foot");
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         criarTabelas();
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Clube avai = new Clube(4, "Avaí");
         Clube atleticoDeIbirama = new Clube(5, "Atlético de Ibirama");
 
-        Estadio e = new Estadio(1000,"Maracanã",50,50,1);
+        Estadio e = new Estadio(1000, "Maracanã", 50, 50, 1);
 
         clubes.add(botafogo);
         clubes.add(fluminense);
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             stmt.bindLong(1, club.getClubeId());
             stmt.bindString(2, club.getNome());
-            stmt.bindDouble(3,club.getCaixa());
+            stmt.bindDouble(3, club.getCaixa());
             long entryID = stmt.executeInsert();
             stmt.clearBindings();
 
@@ -133,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
         SQLiteStatement st = db.compileStatement("INSERT INTO estadio (capacidade,nome, precoEntrada,precoExpansao,clubeId)VALUES(?,?,?,?,?)");
         for (Clube c : clubes) {
 
-            st.bindLong(1,e.getCapacidade());
-            st.bindString(2,e.getNome());
-            st.bindDouble(3,e.getPrecoEntrada());
-            st.bindDouble(4,e.getPrecoExpansao());
-            st.bindLong(5,c.getClubeId());
+            st.bindLong(1, e.getCapacidade());
+            st.bindString(2, e.getNome());
+            st.bindDouble(3, e.getPrecoEntrada());
+            st.bindDouble(4, e.getPrecoExpansao());
+            st.bindLong(5, c.getClubeId());
 
 
             long entryID = st.executeInsert();
@@ -150,12 +149,13 @@ public class MainActivity extends AppCompatActivity {
         db.close();
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         db.beginTransaction();
-        SQLiteStatement s = db.compileStatement("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES (?,?,?,?,?,?,?);");
+        SQLiteStatement s = db.compileStatement("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId,valor)VALUES (?,?,?,?,?,?,?,?);");
 
 
         for (Clube clube : clubes) {
 
             for (Jogador j : clube.getJogadores()) {
+                j.setValor((int)Math.random() * 20000 + 80000);
                 if (j.isJogando()) {
                     jogand = 1;
                 } else {
@@ -168,10 +168,11 @@ public class MainActivity extends AppCompatActivity {
                 s.bindLong(5, j.getCondicionamento());
                 s.bindString(6, j.getNome());
                 s.bindLong(7, clube.getClubeId());
+                s.bindDouble(8, j.getValor());
                 long entryID = s.executeInsert();
                 s.clearBindings();
 
-                }
+            }
         }
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -185,40 +186,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuTime:
-                startActivity(new Intent(getApplicationContext(), Time.class));
-                finish();
-                break;
-            case R.id.menuLoja:
-                startActivity(new Intent(getApplicationContext(), Loja.class));
-                finish();
-                break;
-            case R.id.menuCampeonato:
-                startActivity(new Intent(getApplicationContext(), Campeonato.class));
-                finish();
-                break;
-            case R.id.menuEstadio:
-                startActivity(new Intent(getApplicationContext(), Estadio.class));
-                finish();
-                break;
-            case R.id.menuJogos:
-                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
-                finish();
-                break;
-            case R.id.menuResultados:
-                startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

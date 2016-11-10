@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import Model.Clube;
+import Model.Jogador;
 import Model.Jogo;
 
 public class JogosActivity extends AppCompatActivity {
@@ -118,8 +119,17 @@ public class JogosActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
                 finish();
                 break;
+            case R.id.menuJogos:
+                startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+                finish();
+                break;
             case R.id.menuResultados:
                 startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
+                finish();
+                break;
+
+            case R.id.menuJogador:
+                startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
                 finish();
                 break;
         }

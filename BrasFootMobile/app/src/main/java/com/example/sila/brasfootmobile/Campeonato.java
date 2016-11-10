@@ -18,9 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Model.Clube;
-import Model.Jogador;
-import Model.Jogo;
+import Model.*;
 
 public class Campeonato extends AppCompatActivity {
     private TextView tvClubes, tvAndamento, tvGols,tvLucro;
@@ -167,28 +165,37 @@ public class Campeonato extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 break;
             case R.id.menuTime:
                 startActivity(new Intent(getApplicationContext(), Time.class));
+                finish();
                 break;
             case R.id.menuLoja:
                 startActivity(new Intent(getApplicationContext(), Loja.class));
+                finish();
+                break;
+            case R.id.menuCampeonato:
+                startActivity(new Intent(getApplicationContext(), Campeonato.class));
+                finish();
                 break;
             case R.id.menuEstadio:
                 startActivity(new Intent(getApplicationContext(), Estadio.class));
+                finish();
                 break;
             case R.id.menuJogos:
                 startActivity(new Intent(getApplicationContext(), JogosActivity.class));
+                finish();
                 break;
             case R.id.menuResultados:
                 startActivity(new Intent(getApplicationContext(), ResultadosActivity.class));
                 finish();
                 break;
+
             case R.id.menuJogador:
                 startActivity(new Intent(getApplicationContext(), JogadorActivity.class));
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
