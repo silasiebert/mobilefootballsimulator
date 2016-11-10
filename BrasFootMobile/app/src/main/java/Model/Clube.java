@@ -26,7 +26,7 @@ public class Clube {
     private int vitorias=0;
     private int empates=0;
     private int derrotas=0;
-
+    private double caixa;
     public Clube(int clubeId, String nome) {
         this.clubeId = clubeId;
         this.nome = nome;
@@ -167,6 +167,14 @@ public class Clube {
 
     public void setPontos(int pontos) {
         this.pontos = pontos;
+    }
+
+    public double getCaixa() {
+        return caixa;
+    }
+
+    public void setCaixa(double caixa) {
+        this.caixa = caixa;
     }
 
     public void setClubeId(int clubeId) {

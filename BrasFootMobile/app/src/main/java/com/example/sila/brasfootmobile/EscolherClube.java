@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 import Model.Clube;
-=======
->>>>>>> origin/master
-import Model.*;
 import Model.Estadio;
 
 public class EscolherClube extends AppCompatActivity {
@@ -33,36 +29,28 @@ public class EscolherClube extends AppCompatActivity {
     private ArrayList<Clube> clubes = new ArrayList<>();
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
     private String dis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esolher_clube);
-<<<<<<< HEAD
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-		db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-=======
->>>>>>> origin/master
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         tvClubes = (TextView) findViewById(R.id.tvClubes);
         tvJogadores = (TextView) findViewById(R.id.tvJogadores);
         tvCaixa = (TextView) findViewById(R.id.tvCaixa);
-        lvClubes  = (Spinner) findViewById(R.id.spinner);
+        lvClubes = (Spinner) findViewById(R.id.spinner);
         btConfirmar = (Button) findViewById(R.id.btConfirmar);
 
-@@ -42,8 +44,13 @@ public class EscolherClube extends AppCompatActivity {
+
         mostrarDados();
     }
-    public void mostrarDados(){
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-        final Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
-=======
-=======
->>>>>>> origin/master
+    public void mostrarDados() {
+
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM clube", null);
->>>>>>> origin/master
-        String[] nomes= new String[cursor.getCount()];
+        String[] nomes = new String[cursor.getCount()];
         int size = 0;
 
         String texto = "";
@@ -71,7 +59,7 @@ public class EscolherClube extends AppCompatActivity {
             texto += cursor.getString(cursor.getColumnIndex("clubeId"));
             texto += ": " + cursor.getString(cursor.getColumnIndex("nome"));
             texto += ": " + cursor.getString(cursor.getColumnIndex("caixa"));
-            nomes[size]=cursor.getString(cursor.getColumnIndex("nome"));
+            nomes[size] = cursor.getString(cursor.getColumnIndex("nome"));
             size++;
             texto += "\n";
 
@@ -89,43 +77,24 @@ public class EscolherClube extends AppCompatActivity {
         lvClubes.setAdapter(adapter);
         lvClubes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 dis = (String) lvClubes.getItemAtPosition(pos);
                 btConfirmar.setClickable(true);
-<<<<<<< HEAD
-<<<<<<< HEAD
-                Cursor cursorJ = db.rawQuery("SELECT jogador.nome,jogador.habilidade,jogador.motivacao,jogador.condicionamento, jogador.valor, clube.caixa FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
-=======
                 db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-                Cursor cursorJ = db.rawQuery("SELECT jogador.nome as nomej,jogador.habilidade as habilidadej,jogador.motivacao as motivacaoj,jogador.condicionamento as condicionamentoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
->>>>>>> origin/master
-=======
-                db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
-                Cursor cursorJ = db.rawQuery("SELECT jogador.nome as nomej,jogador.habilidade as habilidadej,jogador.motivacao as motivacaoj,jogador.condicionamento as condicionamentoj FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '"+dis+"'", null);
->>>>>>> origin/master
+                Cursor cursorJ = db.rawQuery("SELECT jogador.nome as nomej,jogador.habilidade as habilidadej,jogador.motivacao as motivacaoj,jogador.condicionamento as condicionamentoj ,caixa FROM jogador INNER JOIN clube ON jogador.clubeId = clube.clubeId WHERE clube.nome = '" + dis + "'", null);
                 String txt = "";
 
                 cursorJ.moveToFirst();
                 while (!cursorJ.isAfterLast()) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    txt += cursorJ.getString(cursorJ.getColumnIndex("jogador.nome"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.habilidade"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.motivacao"));
-                    txt += ": " + cursorJ.getString(cursorJ.getColumnIndex("jogador.condicionamento"));
-                    tvCaixa.setText(cursorJ.getString(cursorJ.getColumnIndex("clube.caixa")));
-=======
-=======
->>>>>>> origin/master
+
                     txt += cursorJ.getString(cursorJ.getColumnIndex("nomej"));
                     txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("habilidadej"));
                     txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("motivacaoj"));
                     txt += " : " + cursorJ.getString(cursorJ.getColumnIndex("condicionamentoj"));
-
->>>>>>> origin/master
-
                     txt += "\n";
+                    tvCaixa.setText(String.valueOf(cursorJ.getDouble(cursorJ.getColumnIndex("caixa"))));
                     cursorJ.moveToNext();
+
                 }
 
                 cursorJ.close();
@@ -134,6 +103,7 @@ public class EscolherClube extends AppCompatActivity {
 
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -141,18 +111,18 @@ public class EscolherClube extends AppCompatActivity {
         });
 
     }
-    public void escolher(View v){
+
+    public void escolher(View v) {
         SharedPreferences sharedPreferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("clube", dis);
         editor.apply();
-        Toast.makeText(getApplicationContext(),sharedPreferences.getString("clube",""),Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(),Time.class);
+        Toast.makeText(getApplicationContext(), sharedPreferences.getString("clube", ""), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(), Time.class);
         finish();
         startActivity(intent);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -185,10 +155,6 @@ public class EscolherClube extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 
 }
 

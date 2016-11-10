@@ -233,7 +233,7 @@ public class Time extends AppCompatActivity {
 
         dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Ficha de: " + jogadores.get(posJogador).getNome());
-        dialog.setMessage("Condicionamento: " + jogadores.get(posJogador).getCondicionamento() + "\nHabilidade: " + jogadores.get(posJogador).getHabilidade() + "\nMotivacao: " + jogadores.get(posJogador).getMotivacao() + "\nDeseja colocar ou retira o jogador da ação?");
+        dialog.setMessage("Condicionamento: " + jogadores.get(posJogador).getCondicionamento() + "\nHabilidade: " + jogadores.get(posJogador).getHabilidade() + "\nMotivação: " + jogadores.get(posJogador).getMotivacao() + "\nDeseja escalar ou retirar o jogador da ação?");
 
         dialog.setNegativeButton("Retirar", new DialogInterface.OnClickListener() {
             @Override
@@ -245,14 +245,14 @@ public class Time extends AppCompatActivity {
         });
 
 
-        dialog.setPositiveButton("Colocar", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Escalar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (emCampo < max) {
                     jogadores.get(posJ).setJogando(true);
                     Toast.makeText(getApplicationContext(), "Jogador " + jogadores.get(posJ).getNome() + " adicionado!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Numero de jogadores nesta posica exedido!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Numero de jogadores nesta posição excedido!", Toast.LENGTH_LONG).show();
                     atualizarJogadores(jogadores, listView, tv);
                 }
 
@@ -275,17 +275,6 @@ public class Time extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuInicio:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-                db.close();
-=======
-<<<<<<< HEAD
-=======
-                db.close();
->>>>>>> master
->>>>>>> Stashed changes
->>>>>>> Stashed changes
                 finish();
                 break;
             case R.id.menuLoja:

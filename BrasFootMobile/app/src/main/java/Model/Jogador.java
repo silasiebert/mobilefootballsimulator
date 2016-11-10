@@ -17,6 +17,7 @@ public class Jogador {
     private int condicionamento;
     private int motivacao;
     private boolean jogando;
+    private double valor;
     public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao,boolean j) {
         this.habilidade = habilidade;
         this.nome = nome;
@@ -25,7 +26,15 @@ public class Jogador {
         this.motivacao = motivacao;
         this.jogando = j;
     }
-
+    public Jogador(int habilidade, String nome, int posicao, int condicionamento, int motivacao,boolean j,double v) {
+        this.habilidade = habilidade;
+        this.nome = nome;
+        this.posicao = posicao;
+        this.condicionamento = condicionamento;
+        this.motivacao = motivacao;
+        this.jogando = j;
+        this.valor = v;
+    }
     public boolean isJogando() {
         return jogando;
     }
@@ -72,6 +81,14 @@ public class Jogador {
 
     public void setMotivacao(int motivacao) {
         this.motivacao = motivacao;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     @Override

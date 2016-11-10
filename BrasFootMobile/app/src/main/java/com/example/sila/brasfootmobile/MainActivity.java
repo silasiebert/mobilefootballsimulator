@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btContinuar;
 
     public void criarTabelas() {
-        db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT,pontos INTEGER,vitorias INTEGER,derrotas INTEGER,empates INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS clube (clubeId  INTEGER NOT NULL PRIMARY KEY, forca  INTEGER,nome  TEXT,pontos INTEGER,vitorias INTEGER,derrotas INTEGER,empates INTEGER,caixa REAL);");
         db.execSQL("CREATE TABLE  IF NOT EXISTS estadio (estadioId  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,capacidade  INTEGER,nome  TEXT, precoEntrada  REAL,precoExpansao  REAL,clubeId  INTEGER NOT NULL,CONSTRAINT  FK_possui_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action);");
-        db.execSQL("CREATE TABLE  IF NOT EXISTS jogador(jogadorId  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,posicao  INTEGER,jogando  INTEGER,motivacao  INTEGER,habilidade  INTEGER,condicionamento  INTEGER,nome  TEXT,clubeId  INTEGER NOT NULL,lojaId  INTEGER,CONSTRAINT  FK_pertence_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action,CONSTRAINT  FK_vende_jogador  FOREIGN KEY ( lojaId ) REFERENCES  loja  ( lojaId ) ON DELETE No Action ON UPDATE No Action);");
+        db.execSQL("CREATE TABLE  IF NOT EXISTS jogador(jogadorId  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,posicao  INTEGER,jogando  INTEGER,motivacao  INTEGER,habilidade  INTEGER,condicionamento  INTEGER,nome  TEXT,valor REAL,clubeId  INTEGER NOT NULL,lojaId  INTEGER,CONSTRAINT  FK_pertence_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action,CONSTRAINT  FK_vende_jogador  FOREIGN KEY ( lojaId ) REFERENCES  loja  ( lojaId ) ON DELETE No Action ON UPDATE No Action);");
         db.execSQL("CREATE TABLE  IF NOT EXISTS jogo(jogoId  INTEGER NOT NULL PRIMARY KEY,golsLocal  INTEGER, golsVisitante  INTEGER,lucro  REAL,vencedor  INTEGER,estadioId  INTEGER,clubeId  INTEGER,CONSTRAINT  FK_contem_jogo  FOREIGN KEY ( estadioId ) REFERENCES  campeonato  ( estadioId ) ON DELETE No Action ON UPDATE No Action,CONSTRAINT  FK_Visitante_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action,CONSTRAINT  FK_Local_clube  FOREIGN KEY ( clubeId ) REFERENCES  clube  ( clubeId ) ON DELETE No Action ON UPDATE No Action) ;");
     }
 
@@ -57,11 +57,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gerarJogadores() {
+        double caixaInicial = 1000000;
+
+        //lista de clubes
         Clube botafogo = new Clube(1, "Botafogo");
         Clube fluminense = new Clube(2, "Fluminense");
         Clube figueirense = new Clube(3, "Figueirense");
         Clube avai = new Clube(4, "Avaí");
         Clube atleticoDeIbirama = new Clube(5, "Atlético de Ibirama");
+
+        Estadio e = new Estadio(1000,"Maracanã",50,50,1);
 
         clubes.add(botafogo);
         clubes.add(fluminense);
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         clubes.add(atleticoDeIbirama);
         ArrayList<Jogador> jogadores;
         for (Clube c : clubes) {
+            c.setCaixa(caixaInicial);
             jogadores = new ArrayList<>();
             //int numeroAletorio =(int)(Math.random()*30)+20;
 
@@ -106,11 +112,12 @@ public class MainActivity extends AppCompatActivity {
 
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         db.beginTransaction();
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO clube (clubeId,nome) VALUES (?,?);");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO clube (clubeId,nome,caixa) VALUES (?,?,?);");
         for (Clube club : clubes) {
 
             stmt.bindLong(1, club.getClubeId());
             stmt.bindString(2, club.getNome());
+            stmt.bindDouble(3,club.getCaixa());
             long entryID = stmt.executeInsert();
             stmt.clearBindings();
 
@@ -120,7 +127,28 @@ public class MainActivity extends AppCompatActivity {
 
         db.close();
 
+        db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
+        db.beginTransaction();
 
+        SQLiteStatement st = db.compileStatement("INSERT INTO estadio (estadioId,capacidade,nome, precoEntrada,precoExpansao,clubeId)VALUES(?,?,?,?,?,?)");
+        for (Clube c : clubes) {
+
+            st.bindLong(1, e.getEstadioid());
+            st.bindLong(2,e.getCapacidade());
+            st.bindString(3,e.getNome());
+            st.bindDouble(4,e.getPrecoEntrada());
+            st.bindDouble(5,e.getPrecoExpansao());
+            st.bindLong(6,c.getClubeId());
+
+
+            long entryID = st.executeInsert();
+            st.clearBindings();
+
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
+        db.close();
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
         db.beginTransaction();
         SQLiteStatement s = db.compileStatement("INSERT INTO jogador(posicao,jogando,motivacao,habilidade,condicionamento,nome,clubeId)VALUES (?,?,?,?,?,?,?);");
