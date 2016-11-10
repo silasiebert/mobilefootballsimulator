@@ -60,6 +60,7 @@ public class Estadio extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+
                         Cursor c = db.rawQuery("SELECT clubeId, caixa from clube WHERE" +
                                 " nome='" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
                         c.moveToFirst();
@@ -69,6 +70,7 @@ public class Estadio extends AppCompatActivity {
                         double novoCaixa=0;
                         if(caixa>=finalValor) {
                             novoCaixa=caixa-finalValor;
+                            db.execSQL("UPDATE estadio SET capacidade = capacidade+'"+finalValor+"' WHERE clubeId = '" + meuClubeId + "';");
                             db.execSQL("UPDATE clube SET caixa = '"+novoCaixa+"' WHERE clubeId = '" + meuClubeId + "';");
                             Toast.makeText(getApplicationContext(), ss  +" lugares construído", Toast.LENGTH_SHORT).show();
 
@@ -140,3 +142,4 @@ public class Estadio extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
