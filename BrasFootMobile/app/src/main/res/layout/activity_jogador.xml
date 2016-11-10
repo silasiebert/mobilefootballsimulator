@@ -8,7 +8,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingTop="70dp"
     tools:context="com.example.sila.brasfootmobile.EscolherClube"
     android:background="@drawable/campo">
 
@@ -43,7 +43,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+
+            >
 
             <TextView
                 android:layout_width="match_parent"
@@ -71,14 +73,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Nome: "
-                android:textSize="25sp"
-                android:singleLine="false" />
+                android:textSize="25sp"/>
 
             <Spinner
                 android:id="@+id/spinnerJogador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                />
 
         </LinearLayout>
 
