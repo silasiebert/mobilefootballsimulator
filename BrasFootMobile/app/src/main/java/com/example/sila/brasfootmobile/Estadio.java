@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +25,14 @@ public class Estadio extends AppCompatActivity {
     private TextView tvValorMostrado;
     private EditText valorRecebido;
     private Editable texto;
-    private int ss;
+    private TextView tvCapacidade;
+    private TextView tvPrecoEntrada;
+    private TextView tvNome;
+    private int quantidade;
     private int finalValor;
     private SQLiteDatabase db;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +41,29 @@ public class Estadio extends AppCompatActivity {
         tvValorMostrado= (TextView) findViewById(R.id.tvValorMostrado);
         valorRecebido = (EditText) findViewById(R.id.etValorDigitado);
         db = openOrCreateDatabase("foot", MODE_PRIVATE, null);
+        tvNome = (TextView) findViewById(R.id.tvNome);
+        tvCapacidade = (TextView) findViewById(R.id.tvCapacidade);
+        tvPrecoEntrada = (TextView) findViewById(R.id.tvPreco);
+
+        carregarEstadio();
+
+    }
+
+    public void carregarEstadio() {
+
+        Cursor c = db.rawQuery("SELECT estadio.capacidade as capacidadee,estadio.nome as nomee,estadio.precoEntrada as precoEntradae FROM estadio INNER JOIN clube  ON estadio.clubeId = clube.clubeId WHERE clube.nome = '" + getSharedPreferences(ARQUIVO_PREFERENCIAS, 0).getString("clube", "") + "'", null);
+        c.moveToFirst();
+             tvNome.setText(c.getString(c.getColumnIndex("nomee")));
+             tvPrecoEntrada.setText(c.getString(c.getColumnIndex("precoEntradae")));
+             tvCapacidade.setText(c.getString(c.getColumnIndex("capacidadee")));
+        c.close();
 
     }
 
 
     public void calcular(View v){
-        texto = this.valorRecebido.getText();
-        ss = Integer.parseInt(texto.toString());
-        finalValor = ss*500;
+        quantidade = Integer.parseInt(valorRecebido.getText().toString());
+        finalValor = quantidade*150;
 
 
 
@@ -52,7 +72,7 @@ public class Estadio extends AppCompatActivity {
 
     public void confirmar(View v) {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra de " + ss + " lugares por " + finalValor + "?");
+        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra de " + quantidade + " lugares por " + finalValor + "?");
         alertDialogBuilder.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
 
@@ -70,10 +90,10 @@ public class Estadio extends AppCompatActivity {
                         double novoCaixa=0;
                         if(caixa>=finalValor) {
                             novoCaixa=caixa-finalValor;
-                            db.execSQL("UPDATE estadio SET capacidade = capacidade+'"+finalValor+"' WHERE clubeId = '" + meuClubeId + "';");
+                            db.execSQL("UPDATE estadio SET capacidade = capacidade+'"+quantidade+"' WHERE clubeId = '" + meuClubeId + "';");
                             db.execSQL("UPDATE clube SET caixa = '"+novoCaixa+"' WHERE clubeId = '" + meuClubeId + "';");
-                            Toast.makeText(getApplicationContext(), ss  +" lugares construído", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(getApplicationContext(), quantidade  +" lugares construído", Toast.LENGTH_SHORT).show();
+                            carregarEstadio();
 
                         }
                         else{
@@ -83,6 +103,7 @@ public class Estadio extends AppCompatActivity {
 
                     }
                 });
+
 
         alertDialogBuilder.setNegativeButton("Cancelar",
                 new DialogInterface.OnClickListener() {
@@ -95,6 +116,8 @@ public class Estadio extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
