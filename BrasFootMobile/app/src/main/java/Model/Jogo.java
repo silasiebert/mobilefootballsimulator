@@ -168,12 +168,14 @@ public class Jogo {
         Jogador lesionado = null;
         if (Math.random() * 20 < 1) {
             if ((int) Math.random() == 1) {
-                lesionado =visitante.getJogadores().get((int) (Math.random() * 11));
-                lesionado.setJogando(false);
+                int numeroJogador=(int) (Math.random() * 11);
+                visitante.getJogadores().get(numeroJogador).setJogando(false);
+                lesionado=visitante.getJogadores().get(numeroJogador);
 
             } else {
-                lesionado =visitante.getJogadores().get((int) (Math.random() * 11));
-                lesionado.setJogando(false);
+                int numeroJogador=(int) (Math.random() * 11);
+                local.getJogadores().get(numeroJogador).setJogando(false);
+                lesionado=local.getJogadores().get(numeroJogador);
 
             }
             return "O jogador "+lesionado.getNome()+" sofre uma lesão.\n";
@@ -185,12 +187,14 @@ public class Jogo {
         Jogador ferido = null;
         if (Math.random() * 10 < 1) {
             if ((int) Math.random() == 1) {
-                ferido =visitante.getJogadores().get((int) (Math.random() * 11));
-                ferido.setJogando(false);
+                int numeroJogador=(int) (Math.random() * 11);
+                visitante.getJogadores().get(numeroJogador).setJogando(false);
+                ferido=visitante.getJogadores().get(numeroJogador);
 
             } else {
-                ferido =visitante.getJogadores().get((int) (Math.random() * 11));
-                ferido.setJogando(false);
+                int numeroJogador=(int) (Math.random() * 11);
+                local.getJogadores().get(numeroJogador).setJogando(false);
+                ferido=local.getJogadores().get(numeroJogador);
 
             }
             return "O jogador "+ferido.getNome()+" sofre uma falta.\n";
