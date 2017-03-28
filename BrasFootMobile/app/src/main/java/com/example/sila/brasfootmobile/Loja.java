@@ -1,14 +1,13 @@
 package com.example.sila.brasfootmobile;
 
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.util.ArrayList;
 
-import Model.*;
-
-import static java.security.AccessController.getContext;
+import Model.Jogador;
 
 public class Loja extends AppCompatActivity {
     private Button btComprar;
@@ -38,7 +34,7 @@ public class Loja extends AppCompatActivity {
     public String nome = "";
     private SQLiteDatabase db;
     private static final String ARQUIVO_PREFERENCIAS = "arquivo_preferencias";
-    private String posicao="";
+    private String posicao = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +69,18 @@ public class Loja extends AppCompatActivity {
 
         for (Jogador j : jogadores) {
             int pos = j.getPosicao();
-            if(pos==1){
-                posicao= "DEFESA";
-            }
-            else if(pos==2){
+            if (pos == 1) {
+                posicao = "DEFESA";
+            } else if (pos == 2) {
                 posicao = "MEIO CAMPO";
 
-            } else if(pos==3){
+            } else if (pos == 3) {
                 posicao = "ATAQUE";
 
-            } else if(pos==4){
+            } else if (pos == 4) {
                 posicao = "GOL";
 
-            }else{
+            } else {
 
             }
 
@@ -99,8 +94,6 @@ public class Loja extends AppCompatActivity {
         mostrarJogadores();
 
     }
-
-
 
 
     public void mostrarJogadores() {
@@ -124,10 +117,10 @@ public class Loja extends AppCompatActivity {
     }
 
     public void confirmar(String dis) {
-        nome = dis.substring(0, dis.indexOf("-")-1);
-        String preco = dis.substring(dis.indexOf("-")+2,dis.lastIndexOf(" ")-2);
+        nome = dis.substring(0, dis.indexOf("-") - 1);
+        String preco = dis.substring(dis.indexOf("-") + 2, dis.lastIndexOf(" ") - 2);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra para o jogador " + nome + " - " + posicao +"? Preço: R$ " +preco + "?");
+        alertDialogBuilder.setMessage("Deseja Confirmar sua Compra para o jogador " + nome + " - " + posicao + "? Preço: R$ " + preco + "?");
         alertDialogBuilder.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
 
@@ -139,19 +132,18 @@ public class Loja extends AppCompatActivity {
                         int meuClubeId = c.getInt(c.getColumnIndex("clubeId"));
                         double caixa = c.getInt(c.getColumnIndex("caixa"));
                         c.close();
-                        for(Jogador j: jogadores){
-                            if(nome.equalsIgnoreCase(j.getNome())){
-                                double novoCaixa=0;
-                                if(caixa>=j.getValor()) {
-                                    novoCaixa=caixa-j.getValor();
+                        for (Jogador j : jogadores) {
+                            if (nome.equalsIgnoreCase(j.getNome())) {
+                                double novoCaixa = 0;
+                                if (caixa >= j.getValor()) {
+                                    novoCaixa = caixa - j.getValor();
                                     db.execSQL("INSERT INTO jogador (posicao,jogando,motivacao,habilidade,condicionamento,nome,valor,clubeId) VALUES(" + j.getPosicao() + "," + 0 + "," + j.getMotivacao() + "," + j.getHabilidade() + "," + j.getCondicionamento() + ",'" + j.getNome() + "'," + j.getValor() + "," + meuClubeId + ");");
-                                    db.execSQL("UPDATE clube SET caixa = '"+novoCaixa+"' WHERE clubeId = '" + meuClubeId + "';");
-                                    Toast.makeText(getApplicationContext(), j.getNome()  +" adicionado", Toast.LENGTH_SHORT).show();
+                                    db.execSQL("UPDATE clube SET caixa = '" + novoCaixa + "' WHERE clubeId = '" + meuClubeId + "';");
+                                    Toast.makeText(getApplicationContext(), j.getNome() + " adicionado", Toast.LENGTH_SHORT).show();
 
 
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(), j.getValor()+ "Saldo insuficiente. Valor em Caixa: " + novoCaixa, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), j.getValor() + "Saldo insuficiente. Valor em Caixa: " + novoCaixa, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

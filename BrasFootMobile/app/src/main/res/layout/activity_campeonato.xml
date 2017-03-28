@@ -53,7 +53,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@color/primary_light">
+            android:background="@color/primary_light"
+            android:visibility="invisible"
+            android:id="@+id/scAndamento">
 
             <LinearLayout
                 android:layout_width="match_parent"
